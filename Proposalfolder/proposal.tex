@@ -24,12 +24,12 @@
 
 \paragraph{Introduction}
 Though a relatively new entertainment industry when compared with the film or music industries, video games have proven to bring in a 
-significant amount of revenue for their creators and publishers. According to IBISWorld, the size of the video game market was estimated
- as 97.67 billion USD in 2022 ~\citep[(A)][]{Marketsizestat}.  In this blossoming industry, it is important for prospective developers 
- to analyze what factors go into making a successful game, considering the sizable budgets and time going into developing games. 
+significant amount of revenue for their creators and publishers. According to IBISWorld, the size of the video game market was estimated 
+as 97.67 billion USD in 2022 ~\citep[(A)][]{Marketsizestat}.  In this blossoming industry, it is important for prospective developers 
+to analyze what factors go into making a successful game, considering the sizable budgets and time going into developing games. 
 
 Previous analysis has been done on this topic, namely in Sacranie's paper "Consumer Perceptions \& Video Game Sales: A Meeting of the Minds", 
-which focuses mainly on critic reviews in it's analysis, while also including variables such as genre and platform in order to construct 
+which focuses mainly on critic reviews in their analysis, while also including variables such as genre and platform in order to construct 
 linear and non-linear models for game sales from 2007-2009, concluding that there seems to be a link between game quality and game sales 
 ~\citep[(B)][]{Sacranie2010Analysis}. In addition, Babb's paper "Comparing Video Game Sales by Gaming Platform" does additional analysis 
 utilizing a Kruskal-Wallis test to compare the sales in relation to the hardware they were released on ~\citep[(C)][]{Babb2013Analysis}. 
@@ -38,22 +38,22 @@ of time, and analyzing it using various statistical tests.
 
 
 \paragraph{Specific Aims}
-The main aim to address with the data is to analyze the trends in video game sales. Mainly, I will be attempting to answer the question,
- "What factors go into making a game sell well?" To approach this, I will use a data set containing top selling games, along with 
- information pertaining to their release, and analyzing which of these aspects are related to success.
+The main aim to address with the data is to analyze the trends in video game sales. Mainly, I will be attempting to answer the question, 
+"What factors go into making a game sell well?" To approach this, I will use a data set containing top selling games, along with 
+information pertaining to their release, and analyzing which of these aspects are related to success.
 
 \paragraph{Data}
 The data set being used is called "Video Game Sales Dataset Updated -Extra Feat". It originates from Kaggle, posted by user 
 Ibrahim Muhammad Naeem, and contains data compiled from vgcharts containing spanning from 1980 to 2016 ~\citep[(D)][]{maindataset}. 
 The data includes information on the names of the games, platform of release, year of  release, genre, publisher, sales numbers 
-from different markets, the critic score, the critic count, user score, user count , developer, and rating.
+from different markets, the critic score, the critic count, user score, user count, developer, and rating.
 
 For some elaboration, because the list also contains games that were released on multiple platforms, some names will appear twice. 
 Games included in the data set is any game with more than 100,000 units sold. Platform of release is the hardware that the specific 
 release could be used with. Year of release is simply the year of initial release, subsequent re-releases will not be specified unless 
 it was sold under a different title or on a different platform. Genre is taken from the genre of each game listed on metacritic.com. 
 Publisher is the primary publishing company responsible for the games. Sales numbers are given in millions, and has data from North 
-America, the EU, Japan, as well as all of these pooled into global sales. Critic score, critic count, user score, and user count are 
+America, the EU, Japan, and other regions, as well as all of these pooled into global sales. Critic score, critic count, user score, and user count are 
 all pulled from Metacritic. The critic scores are a weighted average of scores from various professional critics and news outlets, with 
 critic count simply being the number of reviews taken in by Metacritc. User score and count are similar, simply being the number of 
 Metacritic user reviews, along with their average. These statistics taken together are supposed to give some measure of a given games 
@@ -81,7 +81,7 @@ writing, but I believe it is a necessary step to clean my data analysis. If I ca
 developer, I will modify the data set in order to have better analysis. Another limitation of this data set is the information within 
 this data set is not fully up to date, as it does not include entries from 2017 onward. This is unfortunate, however I believe this 
 analysis will still give relevant information about the past, which can be used as indicators in order to predict different aspects 
-of the games industry moving forward. 
+of the video game industry moving forward. 
 
 
 \bibliography{refs}
