@@ -69,10 +69,36 @@ Publisher is the primary publishing company responsible for the given entry. Sal
 America, the EU, Japan, and all other regions, as well as all of these pooled into global sales. Critic score, critic count, user score, and user count are 
 all pulled from Metacritic. The critic scores are a weighted average of scores from various professional critics and news outlets, with 
 critic count simply being the number of reviews taken in by Metacritc. User score and count are similar, simply being the number of 
-Metacritic user reviews, along with their average. These statistics taken together are supposed to give some measure of a given games 
+Metacritic user reviews, along with their average. Note that user scores are taken out of ten, while critic scores are taken out of 100. These statistics taken together are supposed to give some measure of a given games 
 quality. Developer is the primary studio responsible for developing the game. Lastly, rating is the recommended age rating given by 
-the ESRB, which is required for any major release. There are five different ratings, those being E (everyone), E10+ (everyone ten and up), 
-T (teen 13+), M (mature 17+), and AO (adults only 18+).
+the ESRB, which is required for any major release. There are seven different ratings, those being E (everyone), E10+ (everyone ten and up), 
+T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults).
+
+Below is the summary statistcs for the numerical variables. Note that I have omitted entries that had NA entries in them, bringing the number of 
+entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
+numbers, and the ratings and counts from both the critics and users:
+
+\begin{table}[ht]
+  \caption{Descriptive Statistics of Continuous Variables}
+\label{tab:ds}
+\centering
+\begin{tabular}{lrrrrrrr}
+    \hline
+  Variable & Mean & SD & Min & 1st Qu. & Median & 3rd Qu. & Max \\ 
+    \hline
+    Year of Release & 2007 & 4.236 & 1985 & 2004 & 2007 & 2011 & 2016\\ 
+    NA Sales & 0.391 & 0.963 & 0.000 & 0.060 & 0.150 & 0.390 & 41.360\\ 
+    EU Sales & 0.235 & 0.684 & 0.000 & 0.020 & 0.060 & 0.210 & 28.960\\ 
+    JP Sales & 0.064 & 0.286 & 0.000 & 0.000 & 0.000 & 0.010 & 6.500\\ 
+    Other Sales & 0.082 & 0.269 & 0.000 & 0.010 & 0.020 & 0.070 & 10.570\\ 
+    Global Sales & 0.772 & 1.955 & 0.010 & 0.110 & 0.290 & 0.750 & 82.530\\ 
+    Critic Score & 70.26 & 13.861 & 13.00 & 62.00 & 72.00 & 80.00 & 98.00\\
+    Critic Count & 28.84 & 19.195 & 3.00 & 14.00 & 24.00 & 39.00 & 113.00\\
+    User Score & 7.184 & 1.439 & 0.500 & 6.500 & 7.500 & 8.200 & 9.600\\ 
+    User Count & 174.40 & 584.872 & 4.00 & 11.00 & 27.00 & 89.00 & 10665.0\\
+     \hline
+  \end{tabular}
+  \end{table}
 
 Note specifically for rough draft: There are a number of entries that are missing the ratings, developer, and age ratings.
 For the sake of this rough draft, I am going to omit the entries with missing data, as the process of manually fixing the data
