@@ -1,0 +1,308 @@
+\documentclass[12pt]{article}
+
+
+\usepackage{amsmath}
+\usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+
+
+% highlighting hyper links
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+
+
+
+\title{Predicting Video Game Sales Across Multiple Regions}
+\author{Alexander Rice\\
+  Department of Statistics\\
+  University of Connecticut
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Abstract goes here. Write this once the paper is close to or done so then I can give a better picture of what processes are done
+
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:intro}
+Though a relatively new entertainment industry when compared with the film or music industries, video games have proven to bring in a 
+significant amount of revenue for their creators and publishers. According to IBISWorld, the size of the video game market was estimated 
+as 97.67 billion USD in 2022 ~\citep[(A)][]{Marketsizestat}.  In this blossoming industry, it is important for prospective developers 
+to analyze what factors go into making a successful game, considering the sizable budgets and time going into development. 
+
+Previous analysis has been done on this topic, namely in Sacranie's paper "Consumer Perceptions \& Video Game Sales: A Meeting of the Minds", 
+which focuses mainly on critic reviews in their analysis, while also including variables such as genre and platform in order to construct 
+linear and non-linear models for game sales from 2007-2009, concluding that there seems to be a link between game quality and game sales 
+~\citep[(B)][]{Sacranie2010Analysis}. In addition, Babb's paper "Comparing Video Game Sales by Gaming Platform" does additional analysis 
+utilizing a Kruskal-Wallis test to compare the sales in relation to the hardware they were released on ~\citep[(C)][]{Babb2013Analysis}. 
+In "What Makes a Blockbuster Video Game? An Empirical Analysis of US Sales Data", Cox investigates the effect of multiple different variables,
+including year, review, and rating on the total number of sales using OLS regression analysis ~\citep[(E)][]{Cox2013Analysis}.
+In this paper, I plan to further the analysis done by others, using a different data set with many more observations over a large period 
+of time, and analyzing it using various statistical tests.
+
+% roadmap
+The rest of the paper is organized as follows.
+The data will be presented in Section~\ref{sec:data}.
+The methods are described in Section~\ref{sec:meth}.
+The results are reported in Section~\ref{sec:resu}.
+A discussion concludes in Section~\ref{sec:disc}.
+
+
+\section{Data}
+\label{sec:data}
+The data set being used is called "Video Game Sales Dataset Updated -Extra Feat". It originates from Kaggle, posted by user 
+Ibrahim Muhammad Naeem, and contains data compiled from vgcharts containing spanning from 1980 to 2016 ~\citep[(D)][]{maindataset}. 
+The data includes information on the names of the games, platform of release, year of  release, genre, publisher, sales numbers 
+from different markets, the critic score, the critic count, user score, user count, developer, and rating.
+
+The games included in the data set is any game with more than 100,000 units sold. Platform of release is the hardware that the specific release corresponded to. 
+Since the dataset contains games that were released on multiple platforms, some names will appear twice, as platforms are counted as seperate entries.
+Year of release is simply the year of initial release, subsequent re-releases will not be specified unless 
+it was sold under a different title or on a different platform. Genre is taken from the genre of each game listed on metacritic.com. 
+Publisher is the primary publishing company responsible for the given entry. Sales numbers are given in millions, and has data from North 
+America, the EU, Japan, and all other regions, as well as all of these pooled into global sales. Critic score, critic count, user score, and user count are 
+all pulled from Metacritic. The critic scores are a weighted average of scores from various professional critics and news outlets, with 
+critic count simply being the number of reviews taken in by Metacritc. User score and count are similar, simply being the number of 
+Metacritic user reviews, along with their average. Note that user scores are taken out of ten, while critic scores are taken out of 100. These statistics taken together are supposed to give some measure of a given games 
+quality. Developer is the primary studio responsible for developing the game. Lastly, rating is the recommended age rating given by 
+the ESRB, which is required for any major release. There are seven different ratings, those being E (everyone), E10+ (everyone ten and up), 
+T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults).
+
+Below is the summary statistcs for the numerical variables. Note that I have omitted entries that had NA entries in them, bringing the number of 
+entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
+numbers, and the ratings and counts from both the critics and users:
+
+\begin{table}[ht]
+  \caption{Descriptive Statistics of Continuous Variables}
+\label{tab:ds}
+\centering
+\begin{tabular}{lrrrrrrr}
+    \hline
+  Variable & Mean & SD & Min & 1st Qu. & Median & 3rd Qu. & Max \\ 
+    \hline
+    Year of Release & 2007 & 4.236 & 1985 & 2004 & 2007 & 2011 & 2016\\ 
+    NA Sales & 0.391 & 0.963 & 0.000 & 0.060 & 0.150 & 0.390 & 41.360\\ 
+    EU Sales & 0.235 & 0.684 & 0.000 & 0.020 & 0.060 & 0.210 & 28.960\\ 
+    JP Sales & 0.064 & 0.286 & 0.000 & 0.000 & 0.000 & 0.010 & 6.500\\ 
+    Other Sales & 0.082 & 0.269 & 0.000 & 0.010 & 0.020 & 0.070 & 10.570\\ 
+    Global Sales & 0.772 & 1.955 & 0.010 & 0.110 & 0.290 & 0.750 & 82.530\\ 
+    Critic Score & 70.26 & 13.861 & 13.00 & 62.00 & 72.00 & 80.00 & 98.00\\
+    Critic Count & 28.84 & 19.195 & 3.00 & 14.00 & 24.00 & 39.00 & 113.00\\
+    User Score & 7.184 & 1.439 & 0.500 & 6.500 & 7.500 & 8.200 & 9.600\\ 
+    User Count & 174.40 & 584.872 & 4.00 & 11.00 & 27.00 & 89.00 & 10665.0\\
+     \hline
+  \end{tabular}
+  \end{table}
+
+Here is a table of one of my categorical variables. More to come, the problem with this one is that some overlap, fix that.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]{ESRBv1.pdf}
+  \caption{Pie chart of frequency of ESRB ratings}
+  \label{fig:USRB}
+\end{figure}
+
+Note specifically for rough draft: There are a number of entries that are missing the ratings, developer, and age ratings.
+For the sake of this rough draft, I am going to omit the entries with missing data, as the process of manually fixing the data
+will be very tedious. In the final paper, I plan to either continue to omit those entries, or manually add them. Adding them
+will make for more robust conclusions, however if I omit them I still have a wide range of entries, so conclusions should be at least relatively similar
+
+\section{Methods}
+\label{sec:meth}
+In terms of design, my plan is to use various types of descriptive statistics to explore the data, and modeling the data using graphs, 
+charts, box plots, and other types of visualizations. I plan to use linear regression to attempt to model the effect that platform, 
+year of release, genre, publisher, critic and user scores, developer, and rating have on the sales of games throughout different regions 
+as well as globally. I will also perform transformations where necessary in order to better fit the data, and properly determine which 
+factors, if any, have an impact on sales.
+
+
+\section{Results}
+\label{sec:resu}
+Preliminary Model(Global):
+$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
+
+
+\begin{table}[ht]
+  \caption{Summary of Global Regression Model}
+  \label{tab:global}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+\hline
+(Intercept) & 68.584628  & 21.432828  & 3.200 & 0.001381 \\
+PlatformDC & -1.551114  & 0.532651  & -2.912 & 0.003602 \\
+PlatformDS & -0.055811  & 0.179781  & -0.310 & 0.756236 \\
+PlatformGBA & -0.722101  & 0.215588  & -3.349 & 0.000814 \\
+PlatformGC & -0.800513  & 0.203404  & -3.936 & 8.38e-05 \\
+PlatformPC & -1.022375  & 0.172464  & -5.928 & 3.21e-09 \\
+PlatformPS & -0.131064  & 0.253064  & -0.518 & 0.604538 \\
+PlatformPS2 & -0.309082  & 0.184304  & -1.677 & 0.093584 \\
+PlatformPS3 & -0.092732  & 0.166735  & -0.556 & 0.578117 \\
+PlatformPS4 & 0.005431  & 0.192209  & 0.028 & 0.977460 \\
+PlatformPSP & -0.490081  & 0.184949  & -2.650 & 0.008072 \\
+PlatformPSV & -0.578925  & 0.226580  & -2.555 & 0.010638 \\
+PlatformWii & 0.583274  & 0.176512  & 3.304 & 0.000957 \\
+PlatformWiiU & -0.195930  & 0.245864  & -0.797 & 0.425535 \\
+PlatformX360 & -0.058066  & 0.166707  & -0.348 & 0.727618 \\
+PlatformXB & -0.910937  & 0.193939  & -4.697 & 2.69e-06 \\
+PlatformXOne & -0.333654  & 0.210271  & -1.587 & 0.112608 \\
+Year_of_Release & -0.034774  & 0.010632  & -3.271 & 0.001078 \\
+GenreAdventure & -0.331174  & 0.123531  & -2.681 & 0.007360 \\
+GenreFighting & -0.101362  & 0.108202  & -0.937 & 0.348901 \\
+GenreMisc & 0.179445  & 0.108275  & 1.657 & 0.097504 \\
+GenrePlatform & 0.098206  & 0.109150  & 0.900 & 0.368295 \\
+GenrePuzzle & -0.417609  & 0.183996  & -2.270 & 0.023259 \\
+GenreRacing & -0.006976  & 0.096491  & -0.072 & 0.942370 \\
+GenreRole-Playing & -0.118321  & 0.084877  & -1.394 & 0.163357 \\
+GenreShooter & 0.070824  & 0.080252  & 0.883 & 0.377529 \\
+GenreSimulation & -0.028303  & 0.119940  & -0.236 & 0.813458 \\
+GenreSports & -0.254378  & 0.090837  & -2.800 & 0.005119 \\
+GenreStrategy & -0.323957  & 0.125542  & -2.580 & 0.009887 \\
+Critic_Score & 0.045487  & 0.002125  & 21.407 & < 2e-16 \\
+User_Score & -0.119808  & 0.020686  & -5.792 & 7.27e-09 \\
+RatingAO & 0.798416  & 1.860779  & 0.429 & 0.667881 \\
+RatingE & 0.190820  & 0.236616  & 0.806 & 0.420008 \\
+RatingE10+ & -0.215092  & 0.238325  & -0.903 & 0.366814 \\
+RatingK-A & -0.602151  & 1.867819  & -0.322 & 0.747173 \\
+RatingM & 0.257044  & 0.235168  & 1.093 & 0.274422 \\
+RatingT & -0.089898  & 0.233362  & -0.385 & 0.700081 \\
+ \hline
+\end{tabular}
+\end{table}
+
+Preliminary model(North America):
+$Y_{NA\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
+
+\begin{table}[ht]
+  \caption{Summary of North America Regression Model}
+  \label{tab:NA}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+\hline
+(Intercept) & 42.579793 & 10.518780 & 4.048 & 5.22e-05 \\
+PlatformDC & -0.782150 & 0.261414 & -2.992 & 0.002781 \\
+PlatformDS & -0.002900 & 0.088233 & -0.033 & 0.973778 \\
+PlatformGBA & -0.251579 & 0.105806 & -2.378 & 0.017446 \\
+PlatformGC & -0.275858 & 0.099826 & -2.763 & 0.005736 \\
+PlatformPC & -0.487087 & 0.084642 & -5.755 & 9.05e-09 \\
+PlatformPS & -0.103876 & 0.124198 & -0.836 & 0.402974 \\
+PlatformPS2 & -0.109484 & 0.090453 & -1.210 & 0.226168 \\
+PlatformPS3 & -0.047162 & 0.081830 & -0.576 & 0.564406 \\
+PlatformPS4 & -0.063583 & 0.094332 & -0.674 & 0.500317 \\
+PlatformPSP & -0.218493 & 0.090769 & -2.407 & 0.016104 \\
+PlatformPSV & -0.248789 & 0.111201 & -2.237 & 0.025299 \\
+PlatformWii & 0.374207 & 0.086628 & 4.320 & 1.58e-05 \\
+PlatformWiiU & -0.048255 & 0.120665 & -0.400 & 0.689235 \\
+PlatformX360 & 0.153632 & 0.081816 & 1.878 & 0.060455 \\
+PlatformXB & -0.331366 & 0.095181 & -3.481 & 0.000502 \\
+PlatformXOne & -0.020974 & 0.103196 & -0.203 & 0.838949 \\
+Year_of_Release & -0.021530 & 0.005218 & -4.126 & 3.73e-05 \\
+GenreAdventure & -0.153581 & 0.060627 & -2.533 & 0.011324 \\
+GenreFighting & -0.017801 & 0.053103 & -0.335 & 0.737472 \\
+GenreMisc & 0.124023 & 0.053139 & 2.334 & 0.019628 \\
+GenrePlatform & 0.063101 & 0.053569 & 1.178 & 0.238858 \\
+GenrePuzzle & -0.229844 & 0.090301 & -2.545 & 0.010940 \\
+GenreRacing & -0.024694 & 0.047356 & -0.521 & 0.602071 \\
+GenreRole-Playing & -0.076920 & 0.041656 & -1.847 & 0.064856 \\
+GenreShooter & 0.079768 & 0.039386 & 2.025 & 0.042878 \\
+GenreSimulation & -0.034110 & 0.058864 & -0.579 & 0.562291 \\
+GenreSports & -0.083125 & 0.044581 & -1.865 & 0.062282 \\
+GenreStrategy & -0.149081 & 0.061613 & -2.420 & 0.015562 \\
+Critic_Score & 0.022510 & 0.001043 & 21.586 & < 2e-16 \\
+User_Score & -0.062334 & 0.010152 & -6.140 & 8.72e-10 \\
+RatingAO & 0.621905 & 0.913231 & 0.681 & 0.495898 \\
+RatingE & 0.076168 & 0.116126 & 0.656 & 0.511907 \\
+RatingE10+ & -0.086870 & 0.116965 & -0.743 & 0.457688 \\
+RatingK-A & -0.975668 & 0.916686 & -1.064 & 0.287211 \\
+RatingM & 0.122282 & 0.115416 & 1.059 & 0.289413 \\
+RatingT & -0.052853 & 0.114529 & -0.461 & 0.644468 \\
+ \hline
+\end{tabular}
+\end{table}
+
+Preliminary model(EU):
+$Y_{EU\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
+
+\begin{table}[ht]
+  \caption{Summary of EU Regression Model}
+  \label{tab:EU}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+\hline
+(Intercept) & 19.8058885 & 7.5737439 & 2.615 & 0.008940 \\
+PlatformDC & -0.5100268 & 0.1882235 & -2.710 & 0.006751 \\
+PlatformDS & -0.0292699 & 0.0635295 & -0.461 & 0.645008 \\
+PlatformGBA & -0.2186333 & 0.0761825 & -2.870 & 0.004119 \\
+PlatformGC & -0.2653944 & 0.0718771 & -3.692 & 0.000224 \\
+PlatformPC & -0.2217124 & 0.0609439 & -3.638 & 0.000277 \\
+PlatformPS & 0.0081058 & 0.0894255 & 0.091 & 0.927779 \\
+PlatformPS2 & -0.0926869 & 0.0651279 & -1.423 & 0.154737 \\
+PlatformPS3 & 0.0356781 & 0.0589195 & 0.606 & 0.544840 \\
+PlatformPS4 & 0.1707622 & 0.0679213 & 2.514 & 0.011956 \\
+PlatformPSP & -0.1378432 & 0.0653556 & -2.109 & 0.034970 \\
+PlatformPSV & -0.1479491 & 0.0800668 & -1.848 & 0.064671 \\
+PlatformWii & 0.2119380 & 0.0623742 & 3.398 & 0.000683 \\
+PlatformWiiU & -0.0359300 & 0.0868813 & -0.414 & 0.679214 \\
+PlatformX360 & -0.0283179 & 0.0589094 & -0.481 & 0.630743 \\
+PlatformXB & -0.2806124 & 0.0685323 & -4.095 & 4.28e-05 \\
+PlatformXOne & -0.0761916 & 0.0743036 & -1.025 & 0.305207 \\
+Year_of_Release & -0.0100671 & 0.0037569 & -2.680 & 0.007388 \\
+GenreAdventure & -0.1087147 & 0.0436524 & -2.490 & 0.012781 \\
+GenreFighting & -0.0730923 & 0.0382355 & -1.912 & 0.055965 \\
+GenreMisc & 0.0399790 & 0.0382613 & 1.045 & 0.296109 \\
+GenrePlatform & 0.0206041 & 0.0385706 & 0.534 & 0.593226 \\
+GenrePuzzle & -0.1146653 & 0.0650190 & -1.764 & 0.077850 \\
+GenreRacing & 0.0280863 & 0.0340971 & 0.824 & 0.410130 \\
+GenreRole-Playing & -0.0914651 & 0.0299932 & -3.050 & 0.002301 \\
+GenreShooter & 0.0155044 & 0.0283589 & 0.547 & 0.584589 \\
+GenreSimulation & -0.0022135 & 0.0423835 & -0.052 & 0.958350 \\
+GenreSports & -0.0905930 & 0.0320993 & -2.822 & 0.004782 \\
+GenreStrategy & -0.1095810 & 0.0443628 & -2.470 & 0.013531 \\
+Critic_Score & 0.0144582 & 0.0007509 & 19.256 & < 2e-16 \\
+User_Score & -0.0451645 & 0.0073098 & -6.179 & 6.84e-10 \\
+RatingAO & 0.3130426 & 0.6575456 & 0.476 & 0.634034 \\
+RatingE & 0.0945575 & 0.0836132 & 1.131 & 0.258140 \\
+RatingE10+ & -0.0422582 & 0.0842171 & -0.502 & 0.615840 \\
+RatingK-A & -0.5959975 & 0.6600336 & -0.903 & 0.366568 \\
+RatingM & 0.1247487 & 0.0831016 & 1.501 & 0.133361 \\
+RatingT & 0.0068385 & 0.0824635 & 0.083 & 0.933912 \\
+ \hline
+\end{tabular}
+\end{table}
+
+Preliminary model(Japan):
+
+
+Preliminary model (other):
+
+
+
+\section{Discussion}
+\label{sec:disc}
+
+One of the challenges with this data set is simply that it is very large. There are 16,720 entries, and some of them have no meaningful 
+information, or are missing information. For example, games that just barely have 100,000 sales have quite limited or no information on 
+specific regions, as data was entered as millions only up to two decimal places. Also, there are a sizable number of entries that are 
+missing information on scores, developer, and ESRB rating. My plan in order to remedy this is that I will attempt to somewhat limit the 
+scope of the data set, by only including games with a certain number of sales within my analysis. ***
+If I can fill any missing entries for rating, score, or developer, I will modify the data set in order to have better analysis. Another 
+limitation of this data set is the information within this data set is not fully up to date, as it does not include entries from 2017 
+onward. This is unfortunate, however I believe this analysis will still give relevant information about the past, which can be used as 
+indicators in order to predict different aspects of the video game industry moving forward.
+
+***NOTE FOR LATER: Need to decide how to limit the data, it's not ideal, but I believe it is a necessary step to clean my data analysis. Idea: cutoff at certain number of sales. Maybe 100000?
+\bibliography{refs}
+\bibliographystyle{mcap}
+
+\end{document}
