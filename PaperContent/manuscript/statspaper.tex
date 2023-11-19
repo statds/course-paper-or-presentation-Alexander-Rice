@@ -124,8 +124,8 @@ factors, if any, have an impact on sales.
 
 \section{Results}
 \label{sec:resu}
-Preliminary Model:
-$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*Critic\_Count+\hat{\beta_{6}}*User\_Score+\hat{\beta_{7}}*User\_Count+\hat{\beta_{8}}*Rating$
+Preliminary Model(Global):
+$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
 
 
 \begin{table}[ht]
@@ -136,48 +136,57 @@ $Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year
 \hline
 Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
 \hline
-(Intercept) & 7.329e+01 & 2.051e+01 & 3.573 & 0.000355 \\
-PlatformDC & -8.443e-01 & 5.109e-01 & -1.653 & 0.098476 \\
-PlatformDS & 1.035e-01 & 1.722e-01 & 0.601 & 0.548046 \\
-PlatformGBA & -3.264e-01 & 2.080e-01 & -1.570 & 0.116552 \\
-PlatformGC & -5.073e-01 & 1.955e-01 & -2.595 & 0.009480 \\
-PlatformPC & -1.079e+00 & 1.674e-01 & -6.447 & 1.22e-10 \\
-PlatformPS & 4.488e-01 & 2.455e-01 & 1.828 & 0.067608 \\
-PlatformPS2 & -8.368e-02 & 1.769e-01 & -0.473 & 0.636236 \\
-PlatformPS3 & -9.108e-02 & 1.594e-01 & -0.571 & 0.567708 \\
-PlatformPS4 & -2.879e-01 & 1.841e-01 & -1.564 & 0.117915 \\
-PlatformPSP & -2.805e-01 & 1.772e-01 & -1.583 & 0.113481 \\
-PlatformPSV & -3.317e-01 & 2.169e-01 & -1.529 & 0.126294 \\
-PlatformWii & 6.542e-01 & 1.690e-01 & 3.872 & 0.000109 \\
-PlatformWiiU & -2.566e-01 & 2.350e-01 & -1.092 & 0.274930 \\
-PlatformX360 & -2.724e-01 & 1.598e-01 & -1.705 & 0.088250 \\
-PlatformXB & -6.891e-01 & 1.858e-01 & -3.709 & 0.000209 \\
-PlatformXOne & -1.072e-01 & 2.017e-01 & -0.532 & 0.595007 \\
-Year\_of\_Release & -3.678e-02 & 1.017e-02 & -3.615 & 0.000302 \\
-GenreAdventure & -2.379e-01 & 1.181e-01 & -2.014 & 0.044069 \\
-GenreFighting & -3.170e-02 & 1.034e-01 & -0.306 & 0.759311 \\
-GenreMisc & 2.736e-01 & 1.036e-01 & 2.642 & 0.008251 \\
-GenrePlatform & 4.594e-03 & 1.044e-01 & 0.044 & 0.964905 \\
-GenrePuzzle & -4.565e-01 & 1.760e-01 & -2.594 & 0.009495 \\
-GenreRacing & 2.468e-02 & 9.223e-02 & 0.268 & 0.789018 \\
-GenreRole-Playing & -2.668e-01 & 8.133e-02 & -3.281 & 0.001039 \\
-GenreShooter & -2.107e-02 & 7.679e-02 & -0.274 & 0.783801 \\
-GenreSimulation & 1.211e-01 & 1.148e-01 & 1.055 & 0.291540 \\
-GenreSports & -4.376e-02 & 8.729e-02 & -0.501 & 0.616152 \\
-GenreStrategy & -2.982e-01 & 1.201e-01 & -2.483 & 0.013067 \\
-Critic\_Score & 2.420e-02 & 2.213e-03 & 10.934 & < 2e-16 \\
-Critic\_Count & 2.134e-02 & 1.474e-03 & 14.472 & < 2e-16 \\
-User\_Score & -8.432e-02 & 1.990e-02 & -4.236 & 2.30e-05 \\
-User\_Count & 7.215e-04 & 4.301e-05 & 16.773 & < 2e-16 \\
-RatingAO & 2.441e-01 & 1.779e+00 & 0.137 & 0.890853 \\
-RatingE & 3.270e-03 & 2.263e-01 & 0.014 & 0.988471 \\
-RatingE10+ & -3.338e-01 & 2.279e-01 & -1.465 & 0.142982 \\
-RatingK-A & -6.374e-01 & 1.785e+00 & -0.357 & 0.721055 \\
-RatingM & -3.332e-01 & 2.259e-01 & -1.475 & 0.140322 \\
-RatingT & -3.657e-01 & 2.233e-01 & -1.638 & 0.101502 \\
+(Intercept) & 68.584628  & 21.432828  & 3.200 & 0.001381 \\
+PlatformDC & -1.551114  & 0.532651  & -2.912 & 0.003602 \\
+PlatformDS & -0.055811  & 0.179781  & -0.310 & 0.756236 \\
+PlatformGBA & -0.722101  & 0.215588  & -3.349 & 0.000814 \\
+PlatformGC & -0.800513  & 0.203404  & -3.936 & 8.38e-05 \\
+PlatformPC & -1.022375  & 0.172464  & -5.928 & 3.21e-09 \\
+PlatformPS & -0.131064  & 0.253064  & -0.518 & 0.604538 \\
+PlatformPS2 & -0.309082  & 0.184304  & -1.677 & 0.093584 \\
+PlatformPS3 & -0.092732  & 0.166735  & -0.556 & 0.578117 \\
+PlatformPS4 & 0.005431  & 0.192209  & 0.028 & 0.977460 \\
+PlatformPSP & -0.490081  & 0.184949  & -2.650 & 0.008072 \\
+PlatformPSV & -0.578925  & 0.226580  & -2.555 & 0.010638 \\
+PlatformWii & 0.583274  & 0.176512  & 3.304 & 0.000957 \\
+PlatformWiiU & -0.195930  & 0.245864  & -0.797 & 0.425535 \\
+PlatformX360 & -0.058066  & 0.166707  & -0.348 & 0.727618 \\
+PlatformXB & -0.910937  & 0.193939  & -4.697 & 2.69e-06 \\
+PlatformXOne & -0.333654  & 0.210271  & -1.587 & 0.112608 \\
+Year_of_Release & -0.034774  & 0.010632  & -3.271 & 0.001078 \\
+GenreAdventure & -0.331174  & 0.123531  & -2.681 & 0.007360 \\
+GenreFighting & -0.101362  & 0.108202  & -0.937 & 0.348901 \\
+GenreMisc & 0.179445  & 0.108275  & 1.657 & 0.097504 \\
+GenrePlatform & 0.098206  & 0.109150  & 0.900 & 0.368295 \\
+GenrePuzzle & -0.417609  & 0.183996  & -2.270 & 0.023259 \\
+GenreRacing & -0.006976  & 0.096491  & -0.072 & 0.942370 \\
+GenreRole-Playing & -0.118321  & 0.084877  & -1.394 & 0.163357 \\
+GenreShooter & 0.070824  & 0.080252  & 0.883 & 0.377529 \\
+GenreSimulation & -0.028303  & 0.119940  & -0.236 & 0.813458 \\
+GenreSports & -0.254378  & 0.090837  & -2.800 & 0.005119 \\
+GenreStrategy & -0.323957  & 0.125542  & -2.580 & 0.009887 \\
+Critic_Score & 0.045487  & 0.002125  & 21.407 & < 2e-16 \\
+User_Score & -0.119808  & 0.020686  & -5.792 & 7.27e-09 \\
+RatingAO & 0.798416  & 1.860779  & 0.429 & 0.667881 \\
+RatingE & 0.190820  & 0.236616  & 0.806 & 0.420008 \\
+RatingE10+ & -0.215092  & 0.238325  & -0.903 & 0.366814 \\
+RatingK-A & -0.602151  & 1.867819  & -0.322 & 0.747173 \\
+RatingM & 0.257044  & 0.235168  & 1.093 & 0.274422 \\
+RatingT & -0.089898  & 0.233362  & -0.385 & 0.700081 \\
  \hline
 \end{tabular}
 \end{table}
+
+Preliminary model(North America):
+
+
+Preliminary model(EU):
+
+
+Preliminary model(Japan):
+
+
+Preliminary model (other)
 
 \section{Discussion}
 \label{sec:disc}
