@@ -6,7 +6,8 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{natbib}
-
+\usepackage{setspace}
+\doublespacing
 
 % highlighting hyper links
 \usepackage[colorlinks=true, citecolor=blue]{hyperref}
@@ -74,9 +75,9 @@ quality. Developer is the primary studio responsible for developing the game. La
 the ESRB, which is required for any major release. There are seven different ratings, those being E (everyone), E10+ (everyone ten and up), 
 T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults).
 
-Below is the summary statistcs for the numerical variables. Note that I have omitted entries that had NA entries in them, bringing the number of 
+Table 1 contains the summary statistics for the numerical variables. Note that I have omitted entries that had NA entries in them, bringing the number of 
 entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
-numbers, and the ratings and counts from both the critics and users:
+numbers, and the ratings and counts from both the critics and users.
 
 \begin{table}[ht]
   \caption{Descriptive Statistics of Continuous Variables}
@@ -108,10 +109,7 @@ Here is a table of one of my categorical variables. More to come, the problem wi
   \label{fig:USRB}
 \end{figure}
 
-Note specifically for rough draft: There are a number of entries that are missing the ratings, developer, and age ratings.
-For the sake of this rough draft, I am going to omit the entries with missing data, as the process of manually fixing the data
-will be very tedious. In the final paper, I plan to either continue to omit those entries, or manually add them. Adding them
-will make for more robust conclusions, however if I omit them I still have a wide range of entries, so conclusions should be at least relatively similar
+
 
 \section{Methods}
 \label{sec:meth}
@@ -389,18 +387,18 @@ RatingT & -0.0011831 & 0.0324838 & -0.036 & 0.970947 \\
 
 \section{Discussion}
 \label{sec:disc}
-
+NOTE FOR TOMORROW: Change this Discussion and expand on whats there already.
 One of the challenges with this data set is simply that it is very large. There are 16,720 entries, and some of them have no meaningful 
 information, or are missing information. For example, games that just barely have 100,000 sales have quite limited or no information on 
 specific regions, as data was entered as millions only up to two decimal places. Also, there are a sizable number of entries that are 
 missing information on scores, developer, and ESRB rating. My plan in order to remedy this is that I will attempt to somewhat limit the 
-scope of the data set, by only including games with a certain number of sales within my analysis. ***
+scope of the data set, by only including games with a certain number of sales within my analysis. 
 If I can fill any missing entries for rating, score, or developer, I will modify the data set in order to have better analysis. Another 
 limitation of this data set is the information within this data set is not fully up to date, as it does not include entries from 2017 
 onward. This is unfortunate, however I believe this analysis will still give relevant information about the past, which can be used as 
 indicators in order to predict different aspects of the video game industry moving forward.
 
-***NOTE FOR LATER: Need to decide how to limit the data, it's not ideal, but I believe it is a necessary step to clean my data analysis. Idea: cutoff at certain number of sales. Maybe 100000?
+
 \bibliography{refs}
 \bibliographystyle{mcap}
 
