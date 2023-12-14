@@ -75,7 +75,7 @@ quality. Developer is the primary studio responsible for developing the game. La
 the ESRB, which is required for any major release. There are seven different ratings, those being E (everyone), E10+ (everyone ten and up), 
 T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults).
 
-Table 1 contains the summary statistics for the numerical variables. Note that I have omitted entries that had NA entries in them, bringing the number of 
+Table 1 contains the summary statistics for the numerical variables. Note that I have omitted entries that had missing data in them, bringing the number of 
 entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
 numbers, and the ratings and counts from both the critics and users.
 
@@ -119,6 +119,10 @@ year of release, genre, publisher, critic and user scores, developer, and rating
 as well as globally. I will also perform transformations where necessary in order to better fit the data, and properly determine which 
 factors, if any, have an impact on sales.
 
+For the regression models, I made the decision to not include the variables for critic count and user count. 
+They will obviously be highly correletated with sales, as the more people and critics that a game has, the more popular it is.
+Ommitting these variables allows the model to become more simple, and we can more accurately see the impact that the other
+variables have on sales.
 
 \section{Results}
 \label{sec:resu}
@@ -388,13 +392,17 @@ RatingT & -0.0011831 & 0.0324838 & -0.036 & 0.970947 \\
 \section{Discussion}
 \label{sec:disc}
 NOTE FOR TOMORROW: Change this Discussion and expand on whats there already.
-One of the challenges with this data set is simply that it is very large. There are 16,720 entries, and some of them have no meaningful 
+One of the challenges with this data set is simply that it is very large. There are 16,719 entries, and some of them have no meaningful 
 information, or are missing information. For example, games that just barely have 100,000 sales have quite limited or no information on 
 specific regions, as data was entered as millions only up to two decimal places. Also, there are a sizable number of entries that are 
-missing information on scores, developer, and ESRB rating. My plan in order to remedy this is that I will attempt to somewhat limit the 
-scope of the data set, by only including games with a certain number of sales within my analysis. 
-If I can fill any missing entries for rating, score, or developer, I will modify the data set in order to have better analysis. Another 
-limitation of this data set is the information within this data set is not fully up to date, as it does not include entries from 2017 
+missing information on scores, developer, and ESRB rating. 
+To remedy this, I opted to omit any entries which had NA values, bringing the number of entries down to 6894. 
+A consequence of this is that there may have been many relevant entries that were not included in my analysis.
+However, due to the sample size being very large even after omitting missing values, I think this data analysis is still relevant.
+The entries missing data from my investigation seemed to have no real pattern, I did not notice any common attributes between them.
+Also, most of the entries missing data were entries from the end of the entries, which had very low sales and there was an abundance of these.
+Thus, I believe we can still regard the results as a reflection of actual sales, even though it doesn't include every entry.
+Another limitation of this data set is the information within this data set is not fully up to date, as it does not include entries from 2017 
 onward. This is unfortunate, however I believe this analysis will still give relevant information about the past, which can be used as 
 indicators in order to predict different aspects of the video game industry moving forward.
 
