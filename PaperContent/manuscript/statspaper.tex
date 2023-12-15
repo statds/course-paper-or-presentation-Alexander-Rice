@@ -103,6 +103,7 @@ numbers, and the ratings and counts from both the critics and users.
   \end{table}
 
 In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) histograms and boxplots of the continous variables for year of release, critic score, and user score.
+All three of these seem somewhat normal, but with a skew to the left, much moreso in the case of user and critic scores.
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{histandboxpt1.pdf}
@@ -111,6 +112,7 @@ In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) histograms and boxplots of t
 \end{figure}
 
 In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) more histograms and boxplots are included for critic and user count.
+Both are skewed heavily to the right, with user count specifically being extremely skewed with many outliers.
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{histandboxpt2.pdf}
@@ -118,8 +120,9 @@ In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) more histograms and boxplots
   \label{fig:histandboxpt2}
 \end{figure}
 
+
 In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE), histograms and boxplots are included for the 5 sales statistics, the response variables.
-Note that these are clearly not normal, they are very skewed, a fact that will be addressed in the methods.
+Note that these are clearly not normal, they are very skewed. This fact will be addressed in the methods with a transformation.
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{histandboxsales.pdf}
@@ -128,7 +131,10 @@ Note that these are clearly not normal, they are very skewed, a fact that will b
 \end{figure}
 
 Figure _______INCLUDE NUMBER ONCE DETERMINED contains visualizations for the categorical variables rating, platform, and genre.
-
+The other two categorical variables, developer and publisher, are very difficult to visualize, having 1305 and 272 levels respectively.
+Hence I have opted to not visualize them, as they will not give us a better understanding of what they are. Because of their complexity, 
+I will also not be including them in initial statistical analysis, though I will include them in a subsequent test to see if they do 
+help with accuracy
 
 \begin{figure}[tbp]
   \centering
@@ -137,6 +143,33 @@ Figure _______INCLUDE NUMBER ONCE DETERMINED contains visualizations for the cat
   \label{fig:categoricalplots}
 \end{figure}
 
+
+Table _____INCLUDENUMBER_____ contains a correlation matrix between all numerical variables. All sales statistics are highly
+correlated with eachother, which is to be expected. Critic and user score are also highly correlated with each other, indidicating
+that usually the critic scores and user scores are similar.
+
+\begin{table}[ht]
+  \caption{Correlation Matrix}
+  \label{tab:correlation}
+  \centering
+  \small
+  \begin{tabular}{lrrrrrrrrrr}
+    \hline
+    & GlobalS & CriticS & UserS & Year & CriticC & UserC & NAS & EUS & JPS & OtherS \\
+    \hline
+    GlobalS & 1.0000 & 0.2371 & 0.0884 & 0.0024 & 0.2907 & 0.2640 & 0.9558 & 0.9392 & 0.6133 & 0.8042 \\
+    CriticS & 0.2371 & 1.0000 & 0.5797 & -0.0112 & 0.3949 & 0.2655 & 0.2329 & 0.2128 & 0.1472 & 0.1912 \\
+    UserS & 0.0884 & 0.5797 & 1.0000 & -0.2515 & 0.1947 & 0.0185 & 0.0858 & 0.0558 & 0.1279 & 0.0572 \\
+    Year & 0.0024 & -0.0112 & -0.2515 & 1.0000 & 0.1970 & 0.1969 & -0.0205 & 0.0380 & -0.0417 & 0.0388 \\
+    CriticC & 0.2907 & 0.3949 & 0.1947 & 0.1970 & 1.0000 & 0.3655 & 0.2844 & 0.2660 & 0.1676 & 0.2399 \\
+    UserC & 0.2640 & 0.2655 & 0.0185 & 0.1969 & 0.3655 & 1.0000 & 0.2461 & 0.2834 & 0.0725 & 0.2400 \\
+    NAS & 0.9558 & 0.2329 & 0.0858 & -0.0205 & 0.2844 & 0.2461 & 1.0000 & 0.8417 & 0.4684 & 0.7269 \\
+    EUS & 0.9392 & 0.2128 & 0.0558 & 0.0380 & 0.2660 & 0.2834 & 0.8417 & 1.0000 & 0.5195 & 0.7165 \\
+    JPS & 0.6133 & 0.1472 & 0.1279 & -0.0417 & 0.1676 & 0.0725 & 0.4684 & 0.5195 & 1.0000 & 0.3947 \\
+    OtherS & 0.8042 & 0.1912 & 0.0572 & 0.0388 & 0.2399 & 0.2400 & 0.7269 & 0.7165 & 0.3947 & 1.0000 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 
 
@@ -148,10 +181,15 @@ year of release, genre, publisher, critic and user scores, developer, and rating
 as well as globally. I will also perform transformations where necessary in order to better fit the data, and properly determine which 
 factors, if any, have an impact on sales.
 
-For the regression models, I made the decision to not include the variables for critic count and user count. 
-They will obviously be highly correletated with sales, as the more people and critics that a game has, the more popular it is.
-Ommitting these variables allows the model to become more simple, and we can more accurately see the impact that the other
-variables have on sales.
+In my first model, I will 
+
+
+As seen in the exploration of the data, the distributions for all sales statistics are not normal. This would lead to ineffective modelling, 
+so I chose to
+
+In initial testing, I will be omitting the variables of developer and publisher. They are categorical variables with an extreme amount of variation,
+so much so that when tests are ran the presence of them causes the program to slow down significantly. I will be doing one test of them if needed with
+the global sales, if the model needs more accuracy.
 
 \section{Results}
 \label{sec:resu}
