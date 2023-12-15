@@ -73,7 +73,8 @@ critic count simply being the number of reviews taken in by Metacritc. User scor
 Metacritic user reviews, along with their average. Note that user scores are taken out of ten, while critic scores are taken out of 100. These statistics taken together are supposed to give some measure of a given games 
 quality. Developer is the primary studio responsible for developing the game. Lastly, rating is the recommended age rating given by 
 the ESRB, which is required for any major release. There are seven different ratings, those being E (everyone), E10+ (everyone ten and up), 
-T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults).
+T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults). In this dataset however, there
+are no AO or EC entries, as these two ratings are very uncommon.
 
 Table 1 contains the summary statistics for the numerical variables. Note that I have omitted entries that had missing data in them, bringing the number of 
 entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
@@ -100,6 +101,32 @@ numbers, and the ratings and counts from both the critics and users.
      \hline
   \end{tabular}
   \end{table}
+
+In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) histograms and boxplots of the continous variables for year of release, critic score, and user score.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]{histandboxpt1.pdf}
+  \caption{Visualizations for year, critic and user score}
+  \label{fig:histandboxpt1}
+\end{figure}
+
+In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) more histograms and boxplots are included for critic and user count.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]{histandboxpt2.pdf}
+  \caption{Visualizations for user and critic count}
+  \label{fig:histandboxpt2}
+\end{figure}
+
+In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE), histograms and boxplots are included for the 5 sales statistics, the response variables.
+Note that these are clearly not normal, they are very skewed, a fact that will be addressed in the methods.
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]{histandboxsales.pdf}
+  \caption{Visualizations for each sales statistic}
+  \label{fig:histandboxsales}
+\end{figure}
+
 
 Some figures of my categorical variables are below.
 
