@@ -25,7 +25,11 @@
 \maketitle
 
 \begin{abstract}
-Abstract goes here. Write this once the paper is close to or done so then I can give a better picture of what processes are done
+The videogame industry has experienced unprecedented growth in recent years, making it all the more imparitive that companies analyze how they can maximize their game sales and profits.
+This study incorperates multiple linear regression models to analyze what factors significantly affect videogame sales, both globally and regionally.
+The linear models, though not fitted perfectly showed strong association between global sales and factors such as genre, platform, both user and critic scores and counts, and year of release.
+Regression analysis showed minor differences between region preferences such as rating, and those mentioned previously. 
+These findings highlight that further research is needed to determine what variables determine making a successful game, and highlights future areas for improvement of this study.
 
 \end{abstract}
 
@@ -573,7 +577,7 @@ indicating that around 31.3\% of the variability is explained by the model, whic
 Table __PUT TABLE NUMBER HERE___ displays all the predictors from each logarithmic model, with "Yes" meaning they are significant in 
 that model and "No" meaning they aren't. This is an easy way to view how the different regions' preferences differ with each other. 
 \begin{table}[ht]
-  \caption{Significance of Predictors in Regression Models}
+  \caption{Significance of Predictors in Logistic Sales Models}
   \label{tab:significance}
   \centering
   \begin{tabular}{lccccc}
@@ -621,25 +625,70 @@ that model and "No" meaning they aren't. This is an easy way to view how the dif
   \end{tabular}
 \end{table}
 
+Here is a brief list of the observed differences:
+PlatformDS: Not significant for Global Sales and Other Sales, but significant for NA Sales, EU Sales, and JP Sales.
 
+PlatformGBA: Not significant for Global Sales, Other Sales, and JP Sales, but significant for NA Sales and EU Sales.
+
+PlatformPSV: Not significant for Global Sales, NA Sales, EU Sales, and Other Sales, but significant for JP Sales.
+
+PlatformWiiU: Significant for Global Sales, JP Sales, and Other Sales, but not significant for NA Sales and EU Sales.
+
+PlatformX360: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
+
+PlatformXOne: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
+
+Year_of_Release: Not significant for Global Sales, but significant for NA Sales, EU Sales, and Other Sales. Not significant for JP Sales.
+
+GenreFighting: Not significant for Global Sales, but significant for NA Sales and JP Sales. Not significant for EU Sales and Other Sales.
+
+GenreMisc: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
+
+GenrePlatform: Not significant for any of the sales regions.
+
+GenreRole-Playing: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
+
+GenreShooter: Significant for EU Sales, but not significant for Global Sales, NA Sales, JP Sales, and Other Sales.
+
+GenreSimulation: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
+
+User_Score: Not significant for NA Sales and JP Sales, but significant for Global Sales, EU Sales, and Other Sales.
+
+RatingK-A: Not significant for NA Sales, EU Sales, and JP Sales, but significant for Global Sales and Other Sales.
+
+RatingT: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
 
 
 \section{Discussion}
 \label{sec:disc}
 
+Overall, the models put forth in results were decent. The logistic transformation of the response variables was very helpful, as it helped improve the accuracy of the models drastically. 
+Unfortunately I was unable to produce a model with an r-squared value above 0.5, likely due to the many challenges and issues I encountered elaborated on below.
+A decent picture was presented of how different factors affect the sales across different regions in table __LASTTABLE___, where differences between preferences of North America, Europe, Japan, and other regions are compared.
 One of the challenges with this data set is simply that it is very large. There are 16,719 entries, and some of them have no meaningful 
 information, or are missing information. For example, games that just barely have 100,000 sales have quite limited or no information on 
 specific regions, as data was entered as millions only up to two decimal places. Also, there are a sizable number of entries that are 
 missing information on scores, developer, and ESRB rating. 
-To remedy this, I opted to omit any entries which had NA values, bringing the number of entries down to 6894. 
+To remedy this, I opted to omit any entries which had N/A values, bringing the number of entries down to 6894. 
 A consequence of this is that there may have been many relevant entries that were not included in my analysis.
 However, due to the sample size being very large even after omitting missing values, I think this data analysis is still relevant.
 The entries missing data from my investigation seemed to have no real pattern, I did not notice any common attributes between them.
 Also, most of the entries missing data were entries from the end of the entries, which had very low sales and there was an abundance of these.
 Thus, I believe we can still regard the results as a reflection of actual sales, even though it doesn't include every entry.
+Unfortunately for the analysis I also ommitted categorical variables publisher and developer. This is not ideal as they could be significant predictors for sales, 
+however the fact that they were categorical variables with so many levels caused technical issues in generating linear regression models, 
+as they caused overflow and generally ran very slowly. I believe that not including them was correct for the purposes of comparing different factors affecting sales across different regions,
+however if they were included I believe that they most likely would have increased the r-squared value, and have the model fit the data better.
 Another limitation of this data set is the information within this data set is not fully up to date, as it does not include entries from 2017 
 onward. This is unfortunate, however I believe this analysis will still give relevant information about the past, which can be used as 
-indicators in order to predict different aspects of the video game industry moving forward.
+indicators in order to predict different aspects of the video games industry moving forward.
+Overall I think my main challenge in this analysis is that I chose an overly ambitious dataset, and I would have been able to get better results if I had focused on just a few factors over a few years, rather than thousands of entries over decades with a lot of categorical variables.
+In terms of future areas of analysis, I believe correcting some of the aspects in this paper would be interesting. Having a fully filled
+out dataset rather than one containing multiple missing entries for different variables would have allowed the full scope of games and information to be included, 
+potentially leading to more accurate conclusions. It would also be good for studies to include more updated information, as this would provide a better idea
+of what factors go into making a successful game specifically in recent years, as this would be relevant to prospective developers and publishers wishing to capitalize on modern trends.
+Concluding, I believe that the statistics of the factors that go into making a financially successful video game has been underexplored, 
+and would be a potentially very lucrative area for companies to invest research into determining.
 
 
 \bibliography{refs}
