@@ -122,13 +122,28 @@ Both are skewed heavily to the right, with user count specifically being extreme
 
 
 In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE), histograms and boxplots are included for the 5 sales statistics, the response variables.
-Note that these are clearly not normal, they are very skewed. This fact will be addressed in the methods with a transformation.
+Note that these are clearly not normal, they are very skewed. 
+
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{histandboxsales.pdf}
   \caption{Visualizations for each sales statistic}
   \label{fig:histandboxsales}
 \end{figure}
+
+To address the lack of normality in figure ___Previous___, figure___thisone___ is included, with the natural log of the sales values.
+The boxplots and histograms show much more normal looking data, so this will be important for future analysis. 
+Note here that I needed to do a very minor additional transformation to the logarithmic Japan sales numbers. Because so many of the entries
+were 0 in the dataset, due to Japan having a smaller population than any of the other regions, I opted to add 1e-10 to each entry before taking
+the natural log. This is simply for the sake of modelling, as when there are an overabundance of entries that are all 0, the models will stop working.
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]{histandboxlogs.pdf}
+  \caption{Visualizations for each logarithmic sales statistic}
+  \label{fig:histandboxlogs}
+\end{figure}
+
 
 Figure _______INCLUDE NUMBER ONCE DETERMINED contains visualizations for the categorical variables rating, platform, and genre.
 The other two categorical variables, developer and publisher, are very difficult to visualize, having 1305 and 272 levels respectively.
@@ -181,278 +196,88 @@ year of release, genre, publisher, critic and user scores, developer, and rating
 as well as globally. I will also perform transformations where necessary in order to better fit the data, and properly determine which 
 factors, if any, have an impact on sales.
 
-In my first model, I will 
-
-
-As seen in the exploration of the data, the distributions for all sales statistics are not normal. This would lead to ineffective modelling, 
-so I chose to
-
+In my first model, I will use the following linear model to model global sales, to act as a baseline linear model that we can adjust to improve accuracy:
+$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 In initial testing, I will be omitting the variables of developer and publisher. They are categorical variables with an extreme amount of variation,
-so much so that when tests are ran the presence of them causes the program to slow down significantly. I will be doing one test of them if needed with
-the global sales, if the model needs more accuracy.
+so much so that when tests are ran the presence of them causes the program to slow down significantly, and for potentially important p-values to be left out due to overflow.
+****I will be doing one test of them if needed with the global sales, if the model needs more accuracy.****
+Next I will explore a transformation of this data. As seen in data, the distribution of the sales statistics are extremely skewed, so I will be taking  
+the natural log of the sales, and running all future tests with that. I will be using the following equation:
+$Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+Lastly, I am going to reincorporate the publisher and developer variables, and see if that leads to a better fitting model.
+$Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count+\hat{\beta_{9}}*Developer+\hat{\beta_{10}}*Publisher$
+
+NOTE FOR A BIT LATER: Determine at which point to run regression for the other variables: before publisher and developer or after?
+
 
 \section{Results}
 \label{sec:resu}
 Preliminary Model(Global):
-$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
+$Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 
 
 \begin{table}[ht]
-  \caption{Summary of Global Regression Model}
+  \caption{Summary of Preliminary Global Regression Model}
   \label{tab:global}
-\centering
-\begin{tabular}{lrrrr}
-\hline
-Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-\hline
-(Intercept) & 68.584628  & 21.432828  & 3.200 & 0.001381 \\
-PlatformDC & -1.551114  & 0.532651  & -2.912 & 0.003602 \\
-PlatformDS & -0.055811  & 0.179781  & -0.310 & 0.756236 \\
-PlatformGBA & -0.722101  & 0.215588  & -3.349 & 0.000814 \\
-PlatformGC & -0.800513  & 0.203404  & -3.936 & 8.38e-05 \\
-PlatformPC & -1.022375  & 0.172464  & -5.928 & 3.21e-09 \\
-PlatformPS & -0.131064  & 0.253064  & -0.518 & 0.604538 \\
-PlatformPS2 & -0.309082  & 0.184304  & -1.677 & 0.093584 \\
-PlatformPS3 & -0.092732  & 0.166735  & -0.556 & 0.578117 \\
-PlatformPS4 & 0.005431  & 0.192209  & 0.028 & 0.977460 \\
-PlatformPSP & -0.490081  & 0.184949  & -2.650 & 0.008072 \\
-PlatformPSV & -0.578925  & 0.226580  & -2.555 & 0.010638 \\
-PlatformWii & 0.583274  & 0.176512  & 3.304 & 0.000957 \\
-PlatformWiiU & -0.195930  & 0.245864  & -0.797 & 0.425535 \\
-PlatformX360 & -0.058066  & 0.166707  & -0.348 & 0.727618 \\
-PlatformXB & -0.910937  & 0.193939  & -4.697 & 2.69e-06 \\
-PlatformXOne & -0.333654  & 0.210271  & -1.587 & 0.112608 \\
-Year\_of\_Release & -0.034774  & 0.010632  & -3.271 & 0.001078 \\
-GenreAdventure & -0.331174  & 0.123531  & -2.681 & 0.007360 \\
-GenreFighting & -0.101362  & 0.108202  & -0.937 & 0.348901 \\
-GenreMisc & 0.179445  & 0.108275  & 1.657 & 0.097504 \\
-GenrePlatform & 0.098206  & 0.109150  & 0.900 & 0.368295 \\
-GenrePuzzle & -0.417609  & 0.183996  & -2.270 & 0.023259 \\
-GenreRacing & -0.006976  & 0.096491  & -0.072 & 0.942370 \\
-GenreRole-Playing & -0.118321  & 0.084877  & -1.394 & 0.163357 \\
-GenreShooter & 0.070824  & 0.080252  & 0.883 & 0.377529 \\
-GenreSimulation & -0.028303  & 0.119940  & -0.236 & 0.813458 \\
-GenreSports & -0.254378  & 0.090837  & -2.800 & 0.005119 \\
-GenreStrategy & -0.323957  & 0.125542  & -2.580 & 0.009887 \\
-Critic\_Score & 0.045487  & 0.002125  & 21.407 & < 2e-16 \\
-User\_Score & -0.119808  & 0.020686  & -5.792 & 7.27e-09 \\
-RatingAO & 0.798416  & 1.860779  & 0.429 & 0.667881 \\
-RatingE & 0.190820  & 0.236616  & 0.806 & 0.420008 \\
-RatingE10+ & -0.215092  & 0.238325  & -0.903 & 0.366814 \\
-RatingK-A & -0.602151  & 1.867819  & -0.322 & 0.747173 \\
-RatingM & 0.257044  & 0.235168  & 1.093 & 0.274422 \\
-RatingT & -0.089898  & 0.233362  & -0.385 & 0.700081 \\
- \hline
-\end{tabular}
+  \centering
+  \small
+  \begin{tabular}{lrrrr}
+    \hline
+    Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+    \hline
+    (Intercept) & 73.261 & 20.514 & 3.572 & 0.000357 \\
+    PlatformDC & -0.844 & 0.511 & -1.652 & 0.098554 \\
+    PlatformDS & 0.1037 & 0.1722 & 0.602 & 0.547175 \\
+    PlatformGBA & -0.3261 & 0.2079 & -1.568 & 0.116854 \\
+    PlatformGC & -0.5071 & 0.1955 & -2.594 & 0.009511 \\
+    PlatformPC & -1.079 & 0.1674 & -6.447 & 1.22e-10 \\
+    PlatformPS & 0.4491 & 0.2455 & 1.829 & 0.067379 \\
+    PlatformPS2 & -0.0835 & 0.1769 & -0.472 & 0.637075 \\
+    PlatformPS3 & -0.0911 & 0.1594 & -0.572 & 0.567581 \\
+    PlatformPS4 & -0.2880 & 0.1841 & -1.564 & 0.117755 \\
+    PlatformPSP & -0.2804 & 0.1772 & -1.582 & 0.113676 \\
+    PlatformPSV & -0.3317 & 0.2169 & -1.529 & 0.126233 \\
+    PlatformWii & 0.6544 & 0.1690 & 3.873 & 0.000109 \\
+    PlatformWiiU & -0.2567 & 0.2350 & -1.092 & 0.274744 \\
+    PlatformX360 & -0.2724 & 0.1597 & -1.705 & 0.088192 \\
+    PlatformXB & -0.9109 & 0.1939 & -4.697 & 2.69e-06 \\
+    PlatformXOne & -0.3337 & 0.2103 & -1.587 & 0.112608 \\
+    Year\_of\_Release & -0.03477 & 0.01063 & -3.271 & 0.001078 \\
+    GenreAdventure & -0.3312 & 0.1181 & -2.017 & 0.043749 \\
+    GenreFighting & -0.1014 & 0.1034 & -0.937 & 0.348901 \\
+    GenreMisc & 0.1794 & 0.1035 & 1.657 & 0.097504 \\
+    GenrePlatform & 0.0982 & 0.1044 & 0.900 & 0.368295 \\
+    GenrePuzzle & -0.4176 & 0.1760 & -2.596 & 0.009448 \\
+    GenreRacing & -0.007 & 0.0965 & -0.072 & 0.942370 \\
+    GenreRole-Playing & -0.1183 & 0.0849 & -1.394 & 0.163357 \\
+    GenreShooter & 0.0708 & 0.0803 & 0.883 & 0.377529 \\
+    GenreSimulation & -0.0283 & 0.1199 & -0.236 & 0.813458 \\
+    GenreSports & -0.2544 & 0.0908 & -2.800 & 0.005119 \\
+    GenreStrategy & -0.3240 & 0.1255 & -2.580 & 0.009887 \\
+    Critic\_Score & 0.0455 & 0.0021 & 21.407 & $<$ 2e-16 \\
+    User\_Score & -0.1198 & 0.0207 & -5.792 & 7.27e-09 \\
+    RatingE & 0.0031 & 0.2263 & 0.014 & 0.988945 \\
+    RatingE10+ & -0.2151 & 0.2280 & -0.903 & 0.366814 \\
+    RatingK-A & -0.6022 & 1.7850 & -0.357 & 0.720895 \\
+    RatingM & -0.3329 & 0.2259 & -1.474 & 0.140613 \\
+    RatingT & -0.0899 & 0.2234 & -0.385 & 0.700081 \\
+    Critic\_Count & 0.0213 & 0.0015 & 14.477 & $<$ 2e-16 \\
+    User\_Count & 0.0007 & 0.0000 & 16.771 & $<$ 2e-16 \\
+    \hline
+  \end{tabular}
 \end{table}
 
-Preliminary model(North America):
-$Y_{NA\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
+ ***Putting this here temporarily, move this to the discussion later, perhaps put p-value into another smaller table***
+At $\alpha=0.05$, the statistically significant predictors are: PlatformGC, PlatformPC, PlatformWii, PlatformXB, Year_of_Release, 
+GenreAdventure, GenreMisc, GenrePuzzle, GenreRole-Playing, GenreStrategy, Critic_Score, User_Score, Critic_Count, and User_Count. 
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. However, the r-squared value for the model is 0.1876,
+indicating that only around 19\% of the variability is explained by the model.
 
-\begin{table}[ht]
-  \caption{Summary of North America Regression Model}
-  \label{tab:NA}
-\centering
-\begin{tabular}{lrrrr}
-\hline
-Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-\hline
-(Intercept) & 42.579793 & 10.518780 & 4.048 & 5.22e-05 \\
-PlatformDC & -0.782150 & 0.261414 & -2.992 & 0.002781 \\
-PlatformDS & -0.002900 & 0.088233 & -0.033 & 0.973778 \\
-PlatformGBA & -0.251579 & 0.105806 & -2.378 & 0.017446 \\
-PlatformGC & -0.275858 & 0.099826 & -2.763 & 0.005736 \\
-PlatformPC & -0.487087 & 0.084642 & -5.755 & 9.05e-09 \\
-PlatformPS & -0.103876 & 0.124198 & -0.836 & 0.402974 \\
-PlatformPS2 & -0.109484 & 0.090453 & -1.210 & 0.226168 \\
-PlatformPS3 & -0.047162 & 0.081830 & -0.576 & 0.564406 \\
-PlatformPS4 & -0.063583 & 0.094332 & -0.674 & 0.500317 \\
-PlatformPSP & -0.218493 & 0.090769 & -2.407 & 0.016104 \\
-PlatformPSV & -0.248789 & 0.111201 & -2.237 & 0.025299 \\
-PlatformWii & 0.374207 & 0.086628 & 4.320 & 1.58e-05 \\
-PlatformWiiU & -0.048255 & 0.120665 & -0.400 & 0.689235 \\
-PlatformX360 & 0.153632 & 0.081816 & 1.878 & 0.060455 \\
-PlatformXB & -0.331366 & 0.095181 & -3.481 & 0.000502 \\
-PlatformXOne & -0.020974 & 0.103196 & -0.203 & 0.838949 \\
-Year\_of\_Release & -0.021530 & 0.005218 & -4.126 & 3.73e-05 \\
-GenreAdventure & -0.153581 & 0.060627 & -2.533 & 0.011324 \\
-GenreFighting & -0.017801 & 0.053103 & -0.335 & 0.737472 \\
-GenreMisc & 0.124023 & 0.053139 & 2.334 & 0.019628 \\
-GenrePlatform & 0.063101 & 0.053569 & 1.178 & 0.238858 \\
-GenrePuzzle & -0.229844 & 0.090301 & -2.545 & 0.010940 \\
-GenreRacing & -0.024694 & 0.047356 & -0.521 & 0.602071 \\
-GenreRole-Playing & -0.076920 & 0.041656 & -1.847 & 0.064856 \\
-GenreShooter & 0.079768 & 0.039386 & 2.025 & 0.042878 \\
-GenreSimulation & -0.034110 & 0.058864 & -0.579 & 0.562291 \\
-GenreSports & -0.083125 & 0.044581 & -1.865 & 0.062282 \\
-GenreStrategy & -0.149081 & 0.061613 & -2.420 & 0.015562 \\
-Critic\_Score & 0.022510 & 0.001043 & 21.586 & < 2e-16 \\
-User\_Score & -0.062334 & 0.010152 & -6.140 & 8.72e-10 \\
-RatingAO & 0.621905 & 0.913231 & 0.681 & 0.495898 \\
-RatingE & 0.076168 & 0.116126 & 0.656 & 0.511907 \\
-RatingE10+ & -0.086870 & 0.116965 & -0.743 & 0.457688 \\
-RatingK-A & -0.975668 & 0.916686 & -1.064 & 0.287211 \\
-RatingM & 0.122282 & 0.115416 & 1.059 & 0.289413 \\
-RatingT & -0.052853 & 0.114529 & -0.461 & 0.644468 \\
- \hline
-\end{tabular}
-\end{table}
+Logarithmic Model:
+$Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 
-Preliminary model(EU):
-$Y_{EU\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
 
-\begin{table}[ht]
-  \caption{Summary of EU Regression Model}
-  \label{tab:EU}
-\centering
-\begin{tabular}{lrrrr}
-\hline
-Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-\hline
-(Intercept) & 19.8058885 & 7.5737439 & 2.615 & 0.008940 \\
-PlatformDC & -0.5100268 & 0.1882235 & -2.710 & 0.006751 \\
-PlatformDS & -0.0292699 & 0.0635295 & -0.461 & 0.645008 \\
-PlatformGBA & -0.2186333 & 0.0761825 & -2.870 & 0.004119 \\
-PlatformGC & -0.2653944 & 0.0718771 & -3.692 & 0.000224 \\
-PlatformPC & -0.2217124 & 0.0609439 & -3.638 & 0.000277 \\
-PlatformPS & 0.0081058 & 0.0894255 & 0.091 & 0.927779 \\
-PlatformPS2 & -0.0926869 & 0.0651279 & -1.423 & 0.154737 \\
-PlatformPS3 & 0.0356781 & 0.0589195 & 0.606 & 0.544840 \\
-PlatformPS4 & 0.1707622 & 0.0679213 & 2.514 & 0.011956 \\
-PlatformPSP & -0.1378432 & 0.0653556 & -2.109 & 0.034970 \\
-PlatformPSV & -0.1479491 & 0.0800668 & -1.848 & 0.064671 \\
-PlatformWii & 0.2119380 & 0.0623742 & 3.398 & 0.000683 \\
-PlatformWiiU & -0.0359300 & 0.0868813 & -0.414 & 0.679214 \\
-PlatformX360 & -0.0283179 & 0.0589094 & -0.481 & 0.630743 \\
-PlatformXB & -0.2806124 & 0.0685323 & -4.095 & 4.28e-05 \\
-PlatformXOne & -0.0761916 & 0.0743036 & -1.025 & 0.305207 \\
-Year\_of\_Release & -0.0100671 & 0.0037569 & -2.680 & 0.007388 \\
-GenreAdventure & -0.1087147 & 0.0436524 & -2.490 & 0.012781 \\
-GenreFighting & -0.0730923 & 0.0382355 & -1.912 & 0.055965 \\
-GenreMisc & 0.0399790 & 0.0382613 & 1.045 & 0.296109 \\
-GenrePlatform & 0.0206041 & 0.0385706 & 0.534 & 0.593226 \\
-GenrePuzzle & -0.1146653 & 0.0650190 & -1.764 & 0.077850 \\
-GenreRacing & 0.0280863 & 0.0340971 & 0.824 & 0.410130 \\
-GenreRole-Playing & -0.0914651 & 0.0299932 & -3.050 & 0.002301 \\
-GenreShooter & 0.0155044 & 0.0283589 & 0.547 & 0.584589 \\
-GenreSimulation & -0.0022135 & 0.0423835 & -0.052 & 0.958350 \\
-GenreSports & -0.0905930 & 0.0320993 & -2.822 & 0.004782 \\
-GenreStrategy & -0.1095810 & 0.0443628 & -2.470 & 0.013531 \\
-Critic\_Score & 0.0144582 & 0.0007509 & 19.256 & < 2e-16 \\
-User\_Score & -0.0451645 & 0.0073098 & -6.179 & 6.84e-10 \\
-RatingAO & 0.3130426 & 0.6575456 & 0.476 & 0.634034 \\
-RatingE & 0.0945575 & 0.0836132 & 1.131 & 0.258140 \\
-RatingE10+ & -0.0422582 & 0.0842171 & -0.502 & 0.615840 \\
-RatingK-A & -0.5959975 & 0.6600336 & -0.903 & 0.366568 \\
-RatingM & 0.1247487 & 0.0831016 & 1.501 & 0.133361 \\
-RatingT & 0.0068385 & 0.0824635 & 0.083 & 0.933912 \\
- \hline
-\end{tabular}
-\end{table}
 
-Preliminary model(Japan):
-$Y_{JP\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
-
-\begin{table}[ht]
-  \caption{Summary of JP Regression Model}
-  \label{tab:JP}
-\centering
-\begin{tabular}{lrrrr}
-\hline
-Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-\hline
-(Intercept) & 6.0894480 & 3.1738049 & 1.919 & 0.055069 \\
-PlatformDC & -0.1456628 & 0.0788757 & -1.847 & 0.064828 \\
-PlatformDS & -0.0522432 & 0.0266223 & -1.962 & 0.049758 \\
-PlatformGBA & -0.2042977 & 0.0319245 & -6.399 & 1.66e-10 \\
-PlatformGC & -0.2056303 & 0.0301203 & -6.827 & 9.42e-12 \\
-PlatformPC & -0.2438356 & 0.0255388 & -9.548 & < 2e-16 \\
-PlatformPS & -0.0358997 & 0.0374741 & -0.958 & 0.338103 \\
-PlatformPS2 & -0.1757571 & 0.0272921 & -6.440 & 1.28e-10 \\
-PlatformPS3 & -0.1491063 & 0.0246904 & -6.039 & 1.63e-09 \\
-PlatformPS4 & -0.1695392 & 0.0284627 & -5.957 & 2.70e-09 \\
-PlatformPSP & -0.1660372 & 0.0273875 & -6.063 & 1.41e-09 \\
-PlatformPSV & -0.1642054 & 0.0335523 & -4.894 & 1.01e-06 \\
-PlatformWii & -0.0918155 & 0.0261381 & -3.513 & 0.000446 \\
-PlatformWiiU & -0.0916403 & 0.0364079 & -2.517 & 0.011857 \\
-PlatformX360 & -0.1991667 & 0.0246862 & -8.068 & 8.37e-16 \\
-PlatformXB & -0.2369248 & 0.0287187 & -8.250 & < 2e-16 \\
-PlatformXOne & -0.2045468 & 0.0311372 & -6.569 & 5.43e-11 \\
-Year\_of\_Release & -0.0030289 & 0.0015743 & -1.924 & 0.054405 \\
-GenreAdventure & -0.0234275 & 0.0182927 & -1.281 & 0.200341 \\
-GenreFighting & 0.0144813 & 0.0160227 & 0.904 & 0.366133 \\
-GenreMisc & 0.0086472 & 0.0160335 & 0.539 & 0.589685 \\
-GenrePlatform & 0.0193665 & 0.0161632 & 1.198 & 0.230886 \\
-GenrePuzzle & -0.0210362 & 0.0272464 & -0.772 & 0.440100 \\
-GenreRacing & -0.0168414 & 0.0142885 & -1.179 & 0.238571 \\
-GenreRole-Playing & 0.0940180 & 0.0125688 & 7.480 & 8.34e-14 \\
-GenreShooter & -0.0194253 & 0.0118839 & -1.635 & 0.102181 \\
-GenreSimulation & 0.0247430 & 0.0177609 & 1.393 & 0.163631 \\
-GenreSports & -0.0529202 & 0.0134513 & -3.934 & 8.43e-05 \\
-GenreStrategy & -0.0243846 & 0.0185904 & -1.312 & 0.189674 \\
-Critic\_Score & 0.0033191 & 0.0003147 & 10.548 & < 2e-16 \\
-User\_Score & 0.0032341 & 0.0030632 & 1.056 & 0.291100 \\
-RatingAO & -0.1159982 & 0.2755469 & -0.421 & 0.673787 \\
-RatingE & -0.0044001 & 0.0350384 & -0.126 & 0.900069 \\
-RatingE10+ & -0.0762514 & 0.0352915 & -2.161 & 0.030759 \\
-RatingK-A & 1.1142691 & 0.2765895 & 4.029 & 5.67e-05 \\
-RatingM & -0.0368051 & 0.0348240 & -1.057 & 0.290600 \\
-RatingT & -0.0431451 & 0.0345566 & -1.249 & 0.211878 \\
- \hline
-\end{tabular}
-\end{table}
-
-Preliminary model (other):
-$Y_{Other\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating$
-
-\begin{table}[ht]
-  \caption{Summary of other Regression Model}
-  \label{tab:other}
-\centering
-\begin{tabular}{lrrrr}
-\hline
-Predictor & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-\hline
-(Intercept) & 0.0465533 & 2.9834249 & 0.016 & 0.987551  \\
-PlatformDC & -0.1129867 & 0.0741444 & -1.524 & 0.127586  \\
-PlatformDS & 0.0285637 & 0.0250253 & 1.141 & 0.253747  \\
-PlatformGBA & -0.0474956 & 0.0300096 & -1.583 & 0.113540  \\
-PlatformGC & -0.0537140 & 0.0283136 & -1.897 & 0.057855   \\
-PlatformPC & -0.0705140 & 0.0240068 & -2.937 & 0.003322   \\
-PlatformPS & 0.0017996 & 0.0352262 & 0.051 & 0.959258  \\
-PlatformPS2 & 0.0692660 & 0.0256550 & 2.700 & 0.006953   \\
-PlatformPS3 & 0.0682057 & 0.0232094 & 2.939 & 0.003307   \\
-PlatformPS4 & 0.0676338 & 0.0267553 & 2.528 & 0.011498   \\
-PlatformPSP & 0.0319398 & 0.0257447 & 1.241 & 0.214783  \\
-PlatformPSV & -0.0183636 & 0.0315397 & -0.582 & 0.560425  \\
-PlatformWii & 0.0892325 & 0.0245702 & 3.632 & 0.000284   \\
-PlatformWiiU & -0.0200055 & 0.0342240 & -0.585 & 0.558872  \\
-PlatformX360 & 0.0159202 & 0.0232054 & 0.686 & 0.492700  \\
-PlatformXB & -0.0619266 & 0.0269960 & -2.294 & 0.021825   \\
-PlatformXOne & -0.0325111 & 0.0292694 & -1.111 & 0.266714  \\
-Year\_of\_Release & -0.0001169 & 0.0014799 & -0.079 & 0.937027  \\
-GenreAdventure & -0.0454639 & 0.0171954 & -2.644 & 0.008213   \\
-GenreFighting & -0.0247486 & 0.0150616 & -1.643 & 0.100396  \\
-GenreMisc & 0.0068019 & 0.0150718 & 0.451 & 0.651786  \\
-GenrePlatform & -0.0046292 & 0.0151936 & -0.305 & 0.760619  \\
-GenrePuzzle & -0.0521366 & 0.0256121 & -2.036 & 0.041826   \\
-GenreRacing & 0.0069388 & 0.0134314 & 0.517 & 0.605448  \\
-GenreRole-Playing & -0.0432648 & 0.0118148 & -3.662 & 0.000252   \\
-GenreShooter & -0.0048398 & 0.0111710 & -0.433 & 0.664849  \\
-GenreSimulation & -0.0161181 & 0.0166956 & -0.965 & 0.334373  \\
-GenreSports & -0.0278571 & 0.0126445 & -2.203 & 0.027620   \\
-GenreStrategy & -0.0408961 & 0.0174753 & -2.340 & 0.019301   \\
-Critic\_Score & 0.0052073 & 0.0002958 & 17.605 & < 2e-16   \\
-User\_Score & -0.0155706 & 0.0028795 & -5.407 & 6.61e-08   \\
-RatingAO & -0.0105526 & 0.2590183 & -0.041 & 0.967504  \\
-RatingE & 0.0243356 & 0.0329366 & 0.739 & 0.460017  \\
-RatingE10+ & -0.0099748 & 0.0331745 & -0.301 & 0.763670  \\
-RatingK-A & -0.1556104 & 0.2599983 & -0.599 & 0.549522  \\
-RatingM & 0.0467150 & 0.0327351 & 1.427 & 0.153608  \\
-RatingT & -0.0011831 & 0.0324838 & -0.036 & 0.970947 \\
- \hline
-\end{tabular}
-\end{table}
 
 
 
