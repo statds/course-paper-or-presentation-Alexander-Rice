@@ -198,19 +198,17 @@ factors, if any, have an impact on sales.
 
 In my first model, I will use the following linear model to model global sales, to act as a baseline linear model that we can adjust to improve accuracy:
 $Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
-In initial testing, I will be omitting the variables of developer and publisher. They are categorical variables with an extreme amount of variation,
+In testing, I will be omitting the variables of developer and publisher. They are categorical variables with an extreme amount of variation,
 so much so that when tests are ran the presence of them causes the program to slow down significantly, and for potentially important p-values to be left out due to overflow.
-****I will be doing one test of them if needed with the global sales, if the model needs more accuracy.****
 Next I will explore a transformation of this data. As seen in data, the distribution of the sales statistics are extremely skewed, so I will be taking  
 the natural log of the sales, and running all future tests with that. I will be using the following equation:
 $Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
-I will also test this regression using the other sales stastics as response variables, in order to investigate and see if there is any significant difference in what factors are more relevant in one region versus another.
+I will also test this regression using the other sales stastics as response variables, in order to investigate and see if there is any significant difference in what factors are more relevant in one region versus another, I will create a table to show this.
 $Y_{log(NA\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 $Y_{log(EU\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 $Y_{log(JP\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
-Lastly, I am going to reincorporate the publisher and developer variables into the global sales, and see if that leads to a better fitting model.
-$Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count+\hat{\beta_{9}}*Developer+\hat{\beta_{10}}*Publisher$
+
 
 
 
@@ -450,7 +448,7 @@ $Y_{log(EU\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Yea
 
 At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, PlatformPS, 
 PlatformPS2, PlatformPSP, PlatformXB, PlatformXOne, Year_of_Release, GenreAdventure, GenrePuzzle, GenreRole-Playing, GenreShooter, 
-GenreSimulation, GenreSports, GenreStrategy, Critic_Score, Critic_Count, and User_Count.  
+GenreSimulation, GenreSports, GenreStrategy, Critic_Score, and Critic_Count.  
 The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.2459,
 indicating that around 24.6\% of the variability is explained by the model, less than the global and North American values.
 
@@ -517,8 +515,8 @@ Logarithmic Other Model:
 $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 
 \begin{table}[ht]
-  \caption{Summary of Regression Model}
-  \label{tab:regression}
+  \caption{Summary of Logarthmic Other Regression Model}
+  \label{tab:logother}
   \centering
   \begin{tabular}{lrrrr}
     \hline
@@ -571,6 +569,58 @@ PlatformPS3, PlatformWii, PlatformXB, Critic_Score, User_Score, GenreAdventure, 
 GenreStrategy, RatingE, RatingE10+, Critic_Count, and User_Count.
 The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.3131,
 indicating that around 31.3\% of the variability is explained by the model, which is similar percentagewise to the European model.
+
+Table __PUT TABLE NUMBER HERE___ displays all the predictors from each logarithmic model, with "Yes" meaning they are significant in 
+that model and "No" meaning they aren't. This is an easy way to view how the different regions' preferences differ with each other. 
+\begin{table}[ht]
+  \caption{Significance of Predictors in Regression Models}
+  \label{tab:significance}
+  \centering
+  \begin{tabular}{lccccc}
+    \hline
+    Predictor & Global Sales & NA Sales & EU Sales & JP Sales & Other Sales \\
+    \hline
+    PlatformDC & Yes & Yes & Yes & Yes & Yes \\
+    PlatformDS & No & Yes & Yes & Yes & No \\
+    PlatformGBA & No & Yes & Yes & Yes & No \\
+    PlatformGC & Yes & Yes & Yes & Yes & Yes \\
+    PlatformPC & Yes & Yes & Yes & Yes & Yes \\
+    PlatformPS & Yes & Yes & Yes & Yes & Yes \\
+    PlatformPS2 & Yes & Yes & Yes & Yes & Yes \\
+    PlatformPS3 & Yes & Yes & No & Yes & Yes \\
+    PlatformPS4 & Yes & Yes & Yes & Yes & Yes \\
+    PlatformPSP & Yes & Yes & Yes & Yes & No \\
+    PlatformPSV & No & Yes & No & Yes & No \\
+    PlatformWii & Yes & Yes & Yes & Yes & Yes \\
+    PlatformWiiU & Yes & No & No & Yes & No \\
+    PlatformX360 & Yes & Yes & No & Yes & No \\
+    PlatformXB & Yes & Yes & Yes & Yes & Yes \\
+    PlatformXOne & Yes & Yes & Yes & Yes & No \\
+    Year\_of\_Release & No & Yes & Yes & Yes & No \\
+    GenreAdventure & Yes & Yes & Yes & No & Yes \\
+    GenreFighting & No & Yes & No & Yes & No \\
+    GenreMisc & Yes & Yes & No & No & Yes \\
+    GenrePlatform & No & No & No & No & No \\
+    GenrePuzzle & Yes & Yes & Yes & Yes & Yes \\
+    GenreRacing & Yes & Yes & No & Yes & No \\
+    GenreRole-Playing & Yes & Yes & Yes & Yes & Yes \\
+    GenreShooter & No & No & Yes & No & No \\
+    GenreSimulation & Yes & No & Yes & Yes & Yes \\
+    GenreSports & Yes & Yes & Yes & Yes & Yes \\
+    GenreStrategy & Yes & Yes & Yes & Yes & Yes \\
+    Critic\_Score & Yes & Yes & Yes & Yes & Yes \\
+    User\_Score & Yes & Yes & No & Yes & Yes \\
+    RatingE & Yes & Yes & Yes & Yes & Yes \\
+    RatingE10+ & Yes & Yes & Yes & Yes & Yes \\
+    RatingK-A & No & No & Yes & No & No \\
+    RatingM & Yes & No & Yes & Yes & Yes \\
+    RatingT & Yes & Yes & No & Yes & Yes \\
+    Critic\_Count & Yes & Yes & Yes & Yes & Yes \\
+    User\_Count & Yes & Yes & No & Yes & Yes \\
+    \hline
+  \end{tabular}
+\end{table}
+
 
 
 
