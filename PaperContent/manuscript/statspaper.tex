@@ -25,8 +25,8 @@
 \maketitle
 
 \begin{abstract}
-The videogame industry has experienced unprecedented growth in recent years, making it all the more imparitive that companies analyze how they can maximize their game sales and profits.
-This study incorperates multiple linear regression models to analyze what factors significantly affect videogame sales, both globally and regionally.
+The videogame industry has experienced unprecedented growth in recent years, making it all the more imperative that companies analyze how they can maximize their game sales and profits.
+This study incorporates multiple linear regression models to analyze what factors significantly affect videogame sales, both globally and regionally.
 The linear models, though not fitted perfectly showed strong association between global sales and factors such as genre, platform, both user and critic scores and counts, and year of release.
 Regression analysis showed minor differences between region preferences such as rating, and those mentioned previously. 
 These findings highlight that further research is needed to determine what variables determine making a successful game, and highlights future areas for improvement of this study.
@@ -80,7 +80,7 @@ the ESRB, which is required for any major release. There are seven different rat
 T (teen 13+), M (mature 17+), AO (adults only 18+), EC (early childhood), and K-A (kids to adults). In this dataset however, there
 are no AO or EC entries, as these two ratings are very uncommon.
 
-Table 1 contains the summary statistics for the numerical variables. Note that I have omitted entries that had missing data in them, bringing the number of 
+Table~\ref{tab:ds} contains the summary statistics for the numerical variables. Note that I have omitted entries that had missing data in them, bringing the number of 
 entries in the dataset from 16719 observations to 6894 observations. The continuous variables in this dataset are year of release, all of the sales 
 numbers, and the ratings and counts from both the critics and users.
 
@@ -106,8 +106,8 @@ numbers, and the ratings and counts from both the critics and users.
   \end{tabular}
   \end{table}
 
-In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) histograms and boxplots of the continous variables for year of release, critic score, and user score.
-All three of these seem somewhat normal, but with a skew to the left, much moreso in the case of user and critic scores.
+In Figure~\ref{fig:histandboxpt1} and boxplots of the continuous variables for year of release, critic score, and user score.
+All three of these seem somewhat normal, but with a skew to the left, much more so in the case of user and critic scores.
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{histandboxpt1.pdf}
@@ -115,7 +115,7 @@ All three of these seem somewhat normal, but with a skew to the left, much mores
   \label{fig:histandboxpt1}
 \end{figure}
 
-In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE) more histograms and boxplots are included for critic and user count.
+In Figure~\ref{fig:histandboxpt2} more histograms and boxplots are included for critic and user count.
 Both are skewed heavily to the right, with user count specifically being extremely skewed with many outliers.
 \begin{figure}[tbp]
   \centering
@@ -125,7 +125,7 @@ Both are skewed heavily to the right, with user count specifically being extreme
 \end{figure}
 
 
-In ____(INSERT WHAT FIGURE THIS ENDS UP BEING HERE), histograms and boxplots are included for the 5 sales statistics, the response variables.
+In Figure~\ref{fig:histandboxsales}, histograms and boxplots are included for the 5 sales statistics, the response variables.
 Note that these are clearly not normal, they are very skewed. 
 
 \begin{figure}[tbp]
@@ -135,7 +135,7 @@ Note that these are clearly not normal, they are very skewed.
   \label{fig:histandboxsales}
 \end{figure}
 
-To address the lack of normality in figure ___Previous___, figure___thisone___ is included, with the natural log of the sales values.
+To address the lack of normality in Figure~\ref{fig:histandboxsales}, Figure~\ref{fig:histandboxlogs} is included, with the natural log of the sales values.
 The boxplots and histograms show much more normal looking data, so this will be important for future analysis. 
 Note here that I needed to do a very minor additional transformation to the logarithmic Japan sales numbers. Because so many of the entries
 were 0 in the dataset, due to Japan having a smaller population than any of the other regions, I opted to add 1e-10 to each entry before taking
@@ -149,7 +149,7 @@ the natural log. This is simply for the sake of modelling, as when there are an 
 \end{figure}
 
 
-Figure _______INCLUDE NUMBER ONCE DETERMINED contains visualizations for the categorical variables rating, platform, and genre.
+Figure~\ref{fig:categoricalplots} contains visualizations for the categorical variables rating, platform, and genre.
 The other two categorical variables, developer and publisher, are very difficult to visualize, having 1305 and 272 levels respectively.
 Hence I have opted to not visualize them, as they will not give us a better understanding of what they are. Because of their complexity, 
 I will also not be including them in initial statistical analysis, though I will include them in a subsequent test to see if they do 
@@ -163,8 +163,8 @@ help with accuracy
 \end{figure}
 
 
-Table _____INCLUDENUMBER_____ contains a correlation matrix between all numerical variables. All sales statistics are highly
-correlated with eachother, which is to be expected. Critic and user score are also highly correlated with each other, indidicating
+Table~\ref{tab:correlation} contains a correlation matrix between all numerical variables. All sales statistics are highly
+correlated with each other, which is to be expected. Critic and user score are also highly correlated with each other, indicating
 that usually the critic scores and user scores are similar.
 
 \begin{table}[ht]
@@ -207,10 +207,13 @@ so much so that when tests are ran the presence of them causes the program to sl
 Next I will explore a transformation of this data. As seen in data, the distribution of the sales statistics are extremely skewed, so I will be taking  
 the natural log of the sales, and running all future tests with that. I will be using the following equation:
 $Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
-I will also test this regression using the other sales stastics as response variables, in order to investigate and see if there is any significant difference in what factors are more relevant in one region versus another, I will create a table to show this.
+I will also test this regression using the other sales statistics as response variables, in order to investigate and see if there is any significant difference in what factors are more relevant in one region versus another, I will create a table to show this.
 $Y_{log(NA\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
 $Y_{log(EU\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
 $Y_{log(JP\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
 $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 
 
@@ -218,9 +221,13 @@ $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*
 
 \section{Results}
 \label{sec:resu}
-Preliminary Model(Global):
+Preliminary Model(Global)~\ref{tab:global}:
 $Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
 
+At $\alpha=0.05$, the statistically significant predictors are: PlatformGC, PlatformPC, PlatformWii, PlatformXB, Year\_of\_Release, 
+GenreAdventure, GenreMisc, GenrePuzzle, GenreRole-Playing, GenreStrategy, Critic\_Score, User\_Score, Critic\_Count, and User\_Count. 
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. However, the r-squared value for the model is 0.1876,
+indicating that only around 19\% of the variability is explained by the model.
 
 \begin{table}[ht]
   \caption{Summary of Preliminary Global Regression Model}
@@ -273,13 +280,15 @@ $Y_{Global\_Sales}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year
   \end{tabular}
 \end{table}
 
-At $\alpha=0.05$, the statistically significant predictors are: PlatformGC, PlatformPC, PlatformWii, PlatformXB, Year_of_Release, 
-GenreAdventure, GenreMisc, GenrePuzzle, GenreRole-Playing, GenreStrategy, Critic_Score, User_Score, Critic_Count, and User_Count. 
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. However, the r-squared value for the model is 0.1876,
-indicating that only around 19\% of the variability is explained by the model.
 
-Logarithmic Global Model:
+Logarithmic Global Model~\ref{tab:logglobal}:
 $Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
+At $\alpha=0.05$, the statistically significant predictors are: PlatformGC, PlatformPC, PlatformPS, PlatformPS2, PlatformPS2, PlatformPS3,
+PlatformPS4, PlatformWii, PlatformWiiU, PlatformXB, GenreAdventure, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing, GenreSimulation,
+GenreStrategy, Critic\_Score, User\_Score, RatingE, RatingE10+, Critic\_Count, and User\_Count. Of particular note, in this model, year of release is no longer statistically significant. 
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.458,
+indicating that around 45.8\% of the variability is explained by the model, a vast improvement over the first model.
 
 \begin{table}[ht]
   \caption{Summary of Logarithmic Global Sales Regression}
@@ -332,14 +341,16 @@ $Y_{log(Global\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}
 \end{table}
 
 
-At $\alpha=0.05$, the statistically significant predictors are: PlatformGC, PlatformPC, PlatformPS, PlatformPS2, PlatformPS2, PlatformPS3,
-PlatformPS4, PlatformWii, PlatformWiiU, PlatformXB, GenreAdventure, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing, GenreSimulation,
-GenreStrategy, Critic_Score, User_Score, RatingE, RatingE10+, Critic_Count, and User_Count. Of particular note, in this model, year of release is no longer statistically significant. 
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.458,
-indicating that around 45.8\% of the variability is explained by the model, a vast improvement over the first model.
 
-Logarithmic North America Model:
+Logarithmic North America Model~\ref{tab:NorthAmericaLog}:
 $Y_{log(NA\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
+At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, PlatformPS, 
+PlatformPS2, PlatformPS4, PlatformPSP, PlatformPSV, PlatformWii, GenreAdventure, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing,
+GenreStrategy, Critic\_Score, User\_Score, RatingE, RatingE10+, RatingM, RatingT, Critic\_Count, and user\_Count.  
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.4735,
+indicating that around 47.4\% of the variability is explained by the model, very similar to the logarithmic global model.
+
 \begin{table}[ht]
   \caption{Summary of Logarithmic North American Sales Model}
   \label{tab:NorthAmericaLog}
@@ -390,15 +401,16 @@ $Y_{log(NA\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Yea
   \end{tabular}
 \end{table}
 
-At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, PlatformPS, 
-PlatformPS2, PlatformPS4, PlatformPSP, PlatformPSV, PlatformWii, GenreAdventure, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing,
-GenreStrategy, Critic_Score, User_Score, RatingE, RatingE10+, RatingM, RatingT, Critic_Count, and User_Count.  
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.4735,
-indicating that around 47.4\% of the variability is explained by the model, very similar to the logarithmic global model.
 
 
-Logarithmic Europe Model:
+Logarithmic Europe Model~\ref{tab:LogEU}:
 $Y_{log(EU\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
+At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, PlatformPS, 
+PlatformPS2, PlatformPSP, PlatformXB, PlatformXOne, Year\_of\_Release, GenreAdventure, GenrePuzzle, GenreRole-Playing, GenreShooter, 
+GenreSimulation, GenreSports, GenreStrategy, Critic\_Score, and Critic\_Count.  
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.2459,
+indicating that around 24.6\% of the variability is explained by the model, less than the global and North American values.
 
 \begin{table}[ht]
   \caption{Summary of Logarithmic European Regression Model}
@@ -450,14 +462,17 @@ $Y_{log(EU\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Yea
   \end{tabular}
 \end{table}
 
-At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, PlatformPS, 
-PlatformPS2, PlatformPSP, PlatformXB, PlatformXOne, Year_of_Release, GenreAdventure, GenrePuzzle, GenreRole-Playing, GenreShooter, 
-GenreSimulation, GenreSports, GenreStrategy, Critic_Score, and Critic_Count.  
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.2459,
-indicating that around 24.6\% of the variability is explained by the model, less than the global and North American values.
 
-Logarithmic Japan Model:
+Logarithmic Japan Model~\ref{tab:LogJP}:
 $Y_{log(JP\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
+At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, 
+PlatformPS, PlatformPS2, PlatformPS3, PlatformPS4, PlatformPSP, PlatformWii, PlatformWiiU, PlatformX360, PlatformXB, PlatformXOne, 
+Year\_of\_Release, GenreFighting, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing, GenreSimulation, GenreSports, Critic\_Score, 
+user\_Score, RatingE, RatingE10+, Critic\_Count, and user\_Count.
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.3345,
+indicating that around 33.4\% of the variability is explained by the model, less than the global and North American values, but more than European.
+
 \begin{table}[ht]
   \caption{Summary of Logarithmic Japan Regression Model}
   \label{tab:LogJP}
@@ -508,15 +523,15 @@ $Y_{log(JP\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Yea
   \end{tabular}
 \end{table}
 
-At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformDS, PlatformGBA, PlatformGC, PlatformPC, 
-PlatformPS, PlatformPS2, PlatformPS3, PlatformPS4, PlatformPSP, PlatformWii, PlatformWiiU, PlatformX360, PlatformXB, PlatformXOne, 
-Year_of_Release, GenreFighting, GenreMisc, GenrePuzzle, GenreRacing, GenreRole-Playing, GenreSimulation, GenreSports, Critic_Score, 
-User_Score, RatingE, RatingE10+, Critic_Count, and User_Count.
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.3345,
-indicating that around 33.4\% of the variability is explained by the model, less than the global and North American values, but more than European.
 
-Logarithmic Other Model:
+Logarithmic Other Model~\ref{tab:logother}:
 $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*Year\_of\_Release+\hat{\beta_{3}}*Genre+\hat{\beta_{4}}*Critic\_Score+\hat{\beta_{5}}*User\_Score+\hat{\beta_{6}}*Rating+\hat{\beta_{7}}*Critic\_Count+\hat{\beta_{8}}*Critic\_Count$
+
+At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformGC, PlatformPC, PlatformPS, PlatformPS2, 
+PlatformPS3, PlatformWii, PlatformXB, Critic\_Score, User\_Score, GenreAdventure, GenrePuzzle, GenreRole-Playing, GenreSimulation, 
+GenreStrategy, RatingE, RatingE10+, Critic\_Count, and User\_Count.
+The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.3131,
+indicating that around 31.3\% of the variability is explained by the model, which is similar percentage-wise to the European model.
 
 \begin{table}[ht]
   \caption{Summary of Logarthmic Other Regression Model}
@@ -568,13 +583,8 @@ $Y_{log(Other\_Sales)}=\hat{\beta_{0}}+\hat{\beta_{1}}*Platform+\hat{\beta_{2}}*
   \end{tabular}
 \end{table}
 
-At $\alpha=0.05$, the statistically significant predictors are PlatformDC, PlatformGC, PlatformPC, PlatformPS, PlatformPS2, 
-PlatformPS3, PlatformWii, PlatformXB, Critic_Score, User_Score, GenreAdventure, GenrePuzzle, GenreRole-Playing, GenreSimulation, 
-GenreStrategy, RatingE, RatingE10+, Critic_Count, and User_Count.
-The p-value for the model is $<$ 2.2e-16, meaning that we can conclude that the model is useful. The r-squared value for the model is 0.3131,
-indicating that around 31.3\% of the variability is explained by the model, which is similar percentagewise to the European model.
 
-Table __PUT TABLE NUMBER HERE___ displays all the predictors from each logarithmic model, with "Yes" meaning they are significant in 
+Table~\ref{tab:significance} displays all the predictors from each logarithmic model, with "Yes" meaning they are significant in 
 that model and "No" meaning they aren't. This is an easy way to view how the different regions' preferences differ with each other. 
 \begin{table}[ht]
   \caption{Significance of Predictors in Logistic Sales Models}
@@ -626,37 +636,39 @@ that model and "No" meaning they aren't. This is an easy way to view how the dif
 \end{table}
 
 Here is a brief list of the observed differences:
-PlatformDS: Not significant for Global Sales and Other Sales, but significant for NA Sales, EU Sales, and JP Sales.
+\begin{itemize}
+    \item PlatformDS: Not significant for Global Sales and Other Sales, but significant for NA Sales, EU Sales, and JP Sales.
 
-PlatformGBA: Not significant for Global Sales, Other Sales, and JP Sales, but significant for NA Sales and EU Sales.
+    \item PlatformGBA: Not significant for Global Sales, Other Sales, and JP Sales, but significant for NA Sales and EU Sales.
 
-PlatformPSV: Not significant for Global Sales, NA Sales, EU Sales, and Other Sales, but significant for JP Sales.
+    \item PlatformPSV: Not significant for Global Sales, NA Sales, EU Sales, and Other Sales, but significant for JP Sales.
 
-PlatformWiiU: Significant for Global Sales, JP Sales, and Other Sales, but not significant for NA Sales and EU Sales.
+    \item PlatformWiiU: Significant for Global Sales, JP Sales, and Other Sales, but not significant for NA Sales and EU Sales.
 
-PlatformX360: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
+    \item PlatformX360: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
 
-PlatformXOne: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
+    \item PlatformXOne: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
 
-Year_of_Release: Not significant for Global Sales, but significant for NA Sales, EU Sales, and Other Sales. Not significant for JP Sales.
+    \item Year\_of\_Release: Not significant for Global Sales, but significant for NA Sales, EU Sales, and Other Sales. Not significant for JP Sales.
 
-GenreFighting: Not significant for Global Sales, but significant for NA Sales and JP Sales. Not significant for EU Sales and Other Sales.
+    \item GenreFighting: Not significant for Global Sales, but significant for NA Sales and JP Sales. Not significant for EU Sales and Other Sales.
 
-GenreMisc: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
+    \item GenreMisc: Significant for Global Sales, NA Sales, and Other Sales, but not significant for EU Sales and JP Sales.
 
-GenrePlatform: Not significant for any of the sales regions.
+    \item GenrePlatform: Not significant for any of the sales regions.
 
-GenreRole-Playing: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
+    \item GenreRole-Playing: Significant for Global Sales, NA Sales, EU Sales, and Other Sales, but not significant for JP Sales.
 
-GenreShooter: Significant for EU Sales, but not significant for Global Sales, NA Sales, JP Sales, and Other Sales.
+    \item GenreShooter: Significant for EU Sales, but not significant for Global Sales, NA Sales, JP Sales, and Other Sales.
 
-GenreSimulation: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
+    \item GenreSimulation: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
 
-User_Score: Not significant for NA Sales and JP Sales, but significant for Global Sales, EU Sales, and Other Sales.
+    \item User\_Score: Not significant for NA Sales and JP Sales, but significant for Global Sales, EU Sales, and Other Sales.
 
-RatingK-A: Not significant for NA Sales, EU Sales, and JP Sales, but significant for Global Sales and Other Sales.
+    \item RatingK-A: Not significant for NA Sales, EU Sales, and JP Sales, but significant for Global Sales and Other Sales.
 
-RatingT: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
+    \item RatingT: Significant for Global Sales, EU Sales, and Other Sales, but not significant for NA Sales and JP Sales.
+\end{itemize}
 
 
 \section{Discussion}
@@ -664,7 +676,7 @@ RatingT: Significant for Global Sales, EU Sales, and Other Sales, but not signif
 
 Overall, the models put forth in results were decent. The logistic transformation of the response variables was very helpful, as it helped improve the accuracy of the models drastically. 
 Unfortunately I was unable to produce a model with an r-squared value above 0.5, likely due to the many challenges and issues I encountered elaborated on below.
-A decent picture was presented of how different factors affect the sales across different regions in table __LASTTABLE___, where differences between preferences of North America, Europe, Japan, and other regions are compared.
+A decent picture was presented of how different factors affect the sales across different regions in Table~\ref{tab:significance}, where differences between preferences of North America, Europe, Japan, and other regions are compared.
 One of the challenges with this data set is simply that it is very large. There are 16,719 entries, and some of them have no meaningful 
 information, or are missing information. For example, games that just barely have 100,000 sales have quite limited or no information on 
 specific regions, as data was entered as millions only up to two decimal places. Also, there are a sizable number of entries that are 
@@ -675,7 +687,7 @@ However, due to the sample size being very large even after omitting missing val
 The entries missing data from my investigation seemed to have no real pattern, I did not notice any common attributes between them.
 Also, most of the entries missing data were entries from the end of the entries, which had very low sales and there was an abundance of these.
 Thus, I believe we can still regard the results as a reflection of actual sales, even though it doesn't include every entry.
-Unfortunately for the analysis I also ommitted categorical variables publisher and developer. This is not ideal as they could be significant predictors for sales, 
+Unfortunately for the analysis I also omitted categorical variables publisher and developer. This is not ideal as they could be significant predictors for sales, 
 however the fact that they were categorical variables with so many levels caused technical issues in generating linear regression models, 
 as they caused overflow and generally ran very slowly. I believe that not including them was correct for the purposes of comparing different factors affecting sales across different regions,
 however if they were included I believe that they most likely would have increased the r-squared value, and have the model fit the data better.
@@ -687,7 +699,7 @@ In terms of future areas of analysis, I believe correcting some of the aspects i
 out dataset rather than one containing multiple missing entries for different variables would have allowed the full scope of games and information to be included, 
 potentially leading to more accurate conclusions. It would also be good for studies to include more updated information, as this would provide a better idea
 of what factors go into making a successful game specifically in recent years, as this would be relevant to prospective developers and publishers wishing to capitalize on modern trends.
-Concluding, I believe that the statistics of the factors that go into making a financially successful video game has been underexplored, 
+Concluding, I believe that the statistics of the factors that go into making a financially successful video game has been under explored, 
 and would be a potentially very lucrative area for companies to invest research into determining.
 
 
